@@ -2,7 +2,6 @@
 #define cpu_hpp
 
 #include <iostream>
-#include <stack>
 #include <stdint.h>
 
 class CPU
