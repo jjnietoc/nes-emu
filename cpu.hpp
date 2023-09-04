@@ -17,13 +17,13 @@ private:
     /* --- flags --- */
     enum class ProcessorFlags // flags of processor status, bit 5 is unused
     {
-      C = 1 << 0,   // Carry Flag
-      Z = 1 << 1,   // Zero Flag
-      I = 1 << 2,   // Interrupt Disable
-      D = 1 << 3,   // Decimal Mode
-      B = 1 << 4,   // Break Command
-      V = 1 << 6,   // Overflow Flag
-      N = 1 << 7    // Negative Flag
+      Carry = 1 << 0,   // Carry Flag
+      Zero = 1 << 1,   // Zero Flag
+      InterruptDisable = 1 << 2,   // Interrupt Disable
+      Ddecimal = 1 << 3,   // Decimal Mode
+      Break = 1 << 4,   // Break Command
+      Overflow = 1 << 6,   // Overflow Flag
+      Negative = 1 << 7    // Negative Flag
     };
 
 
