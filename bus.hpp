@@ -18,6 +18,9 @@ class Bus
     Bus();
     ~Bus();
 
+    /* Bus should have RAM and the ability to write read, 2048 std::vect full of 0 first. Init as std::vect<2048, 0>
+     * also good idea to abstract uint8_t to Byte, to ease readability */
+    
     // access cpu ram 
     // miror
     // check if read/write

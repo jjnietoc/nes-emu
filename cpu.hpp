@@ -5,22 +5,6 @@
 #include <stdint.h>
 #include "bus.hpp"
 
-enum AdressingModes {
-      Implicit,
-      Accumulator,
-      Immediate,
-      ZeroPage,
-      ZeroPageX,
-      ZeroPageY,
-      Absolute,
-      AbsoluteX,
-      AbsoluteY,
-      Relative,
-      Indirect,
-      IndirectX,
-      IndirectY
-    };
-
 class Bus;
 
 class CPU
@@ -28,15 +12,17 @@ class CPU
 private:
     Bus *bus;
 
+
+
 public:
     /* --- registers --- */
     uint16_t pc;     // program counter
     uint8_t sp;      // stack pointer
-    uint8_t A;       // accumulator
-    uint8_t X;       // index register X
-    uint8_t Y;       // index register Y
-    uint8_t P;    // Status Register
-
+    uint8_t a;       // accumulator
+    uint8_t x;       // index register X
+    uint8_t y;       // index register Y
+    uint8_t p;    // Status Register
+    
     /* --- flags --- */
     enum class ProcessorFlags // flags of processor status, bit 5 is unused
     {
@@ -50,44 +36,29 @@ public:
       N = 1 << 7    // Negative Flag
     };
 
-    /* --- addressing modes --- */
-    void AM_IMP();
-    void AM_ACC();
-    void AM_IMM();
-    void AM_ZP();
-    void AM_ZPX();
-    void AM_ZPY();
-    void AM_ABS();
-    void AM_ABSX();
-    void AM_ABSY();
-    void AM_REL();
-    void AM_IND();
-    void AM_INDX();
-    void AM_INDY();
-
-
     /* flag functions for setting, unsetting and checking P flags */
-    struct
+   /* struct
     {
       uint8_t FlagValue = 0;
 
-      void SetFlagValue(ProcessorFlags flag)
+      void setFlagValue(ProcessorFlags flag)
       {
         FlagValue |= (int)flag;
       }
 
-      void UnsetFlagValue(ProcessorFlags flag)
+      void unsetFlagValue(ProcessorFlags flag)
       {
         FlagValue &= ~(int)flag;
       }
 
-      bool FlagValueIsSet(ProcessorFlags flag)
+      bool flagValueIsSet(ProcessorFlags flag)
       {
         return (FlagValue & (int)flag) == (int)flag;
       }
-    } ProcessorStatus;
+    } ProcessorStatus; */
 
     
 };
+
 
 #endif /* cpu_hpp */
