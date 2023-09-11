@@ -1,9 +1,12 @@
-#ifndef cpu_hpp
-#define cpu_hpp
-
+#include <_types/_uint8_t.h>
 #include <iostream>
 #include <stdint.h>
 #include "bus.hpp"
+
+#ifndef cpu_hpp
+#define cpu_hpp
+
+const auto MEMORY_SIZE = 0xFFFF;
 
 class Bus;
 
@@ -11,8 +14,6 @@ class CPU
 {
 private:
     Bus *bus;
-
-
 
 public:
     /* --- registers --- */
@@ -23,6 +24,8 @@ public:
     uint8_t y;       // index register Y
     uint8_t p;    // Status Register
     
+    
+
     /* --- flags --- */
     enum class ProcessorFlags // flags of processor status, bit 5 is unused
     {
@@ -35,6 +38,23 @@ public:
       V = 1 << 6,   // Overflow Flag
       N = 1 << 7    // Negative Flag
     };
+
+    enum class AddressingMode 
+    {
+      Accumulator,
+      Relative,
+      Immediate,
+      ZeroPage,
+      ZeroPageX,
+      ZeroPageY,
+      Absolute,
+      AbsoluteX,
+      AbsoluteY,
+      IndirectX,
+      IndirectY,
+    }
+
+
 
     /* flag functions for setting, unsetting and checking P flags */
    /* struct
