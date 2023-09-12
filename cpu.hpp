@@ -1,84 +1,37 @@
 #include <_types/_uint8_t.h>
-#include <iostream>
 #include <stdint.h>
-#include "bus.hpp"
+#include <array>
 
-#ifndef cpu_hpp
-#define cpu_hpp
+#ifndef CPU_HPP
+#define CPU_HPP
 
-const auto MEMORY_SIZE = 0xFFFF;
-
-class Bus;
-
-class CPU
+class chip2A03 
 {
-private:
-    Bus *bus;
-
-public:
-    /* --- registers --- */
-    uint16_t pc;     // program counter
-    uint8_t sp;      // stack pointer
-    uint8_t a;       // accumulator
-    uint8_t x;       // index register X
-    uint8_t y;       // index register Y
-    uint8_t p;    // Status Register
+  /* registers */
+  uint8_t a;    // accumulator
+  uint8_t x;    // index x
+  uint8_t y;    // index y
+  uint16_t pc;  // program counter
+  uint8_t sp;   // stack pointer
     
-    
+  enum class statusRegister {
+    c = 1 << 0,   // carry
+    z = 1 << 1,   // zero
+    i = 1 << 2,   // interrupt disable
+    d = 1 << 3,   // decimal
+    b = 1 << 4,   // break
+    u = 1 << 5,   // unused
+    v = 1 << 6,   // overflow
+    n = 1 << 7    // negative
+  };
 
-    /* --- flags --- */
-    enum class ProcessorFlags // flags of processor status, bit 5 is unused
-    {
-      C = 1 << 0,   // Carry Flag
-      Z = 1 << 1,   // Zero Flag
-      I = 1 << 2,   // Interrupt Disable
-      D = 1 << 3,   // Decimal Mode
-      B = 1 << 4,   // Break Command
-      U = 1 << 5,   // Unused
-      V = 1 << 6,   // Overflow Flag
-      N = 1 << 7    // Negative Flag
-    };
+  /* instructions */
 
-    enum class AddressingMode 
-    {
-      Accumulator,
-      Relative,
-      Immediate,
-      ZeroPage,
-      ZeroPageX,
-      ZeroPageY,
-      Absolute,
-      AbsoluteX,
-      AbsoluteY,
-      IndirectX,
-      IndirectY,
-    }
+  /* addressing modes */
 
+  /* memory */
+  std::array<uint8_t, 2000> wram;
 
-
-    /* flag functions for setting, unsetting and checking P flags */
-   /* struct
-    {
-      uint8_t FlagValue = 0;
-
-      void setFlagValue(ProcessorFlags flag)
-      {
-        FlagValue |= (int)flag;
-      }
-
-      void unsetFlagValue(ProcessorFlags flag)
-      {
-        FlagValue &= ~(int)flag;
-      }
-
-      bool flagValueIsSet(ProcessorFlags flag)
-      {
-        return (FlagValue & (int)flag) == (int)flag;
-      }
-    } ProcessorStatus; */
-
-    
 };
 
-
-#endif /* cpu_hpp */
+#endif
