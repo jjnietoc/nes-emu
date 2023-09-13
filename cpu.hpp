@@ -7,14 +7,16 @@
 
 class chip2A03 
 {
+  private:
   /* registers */
   uint8_t a;    // accumulator
   uint8_t x;    // index x
   uint8_t y;    // index y
+
   uint16_t pc;  // program counter
   uint8_t sp;   // stack pointer
     
-  enum class statusRegister {
+  enum class statusFlags {
     c = 1 << 0,   // carry
     z = 1 << 1,   // zero
     i = 1 << 2,   // interrupt disable
@@ -25,12 +27,19 @@ class chip2A03
     n = 1 << 7    // negative
   };
 
-  /* instructions */
+  // funcs to set flags
+    // basically set every flag for future execution
+
+  enum memoryAccessMode {
+      READ,
+      WRITE
+    };
 
   /* addressing modes */
 
-  /* memory */
-  std::array<uint8_t, 2000> wram;
+  /* instructions */
+
+
 
 };
 
