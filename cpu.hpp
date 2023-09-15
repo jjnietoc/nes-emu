@@ -30,13 +30,11 @@ class chip2A03
     };
 
     enum flagSet {
-      SET = 0,
-      UNSET = 1
+      SET,
+      UNSET
     };
 
-
     // funcs to set flags
-    // basically set every flag for future execution
     void setStatusFlag(statusFlag sf, flagSet fs);
     void setCarry(flagSet fs);
     void setZero(flagSet fs);
