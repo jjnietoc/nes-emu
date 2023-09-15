@@ -1,4 +1,3 @@
-#include <_types/_uint8_t.h>
 #include <stdint.h>
 #include <array>
 
@@ -50,10 +49,35 @@ class chip2A03
     };
 
     /* addressing modes */
+    enum addressingMode {
+      IMPLICIT,
+      ACCUMULATOR,
+      IMMEDIATE,
+      ZEROPAGE,
+      ZEROPAGEX,
+      ZEROPAGEY,
+      ABSOLUTE,
+      ABSOLUTEX,
+      ABSOLUTEY,
+      RELATIVE,
+      INDIRECT,
+      INDIRECTX,
+      INDIRECTY
+    };
+
+    /* maybe create a struct for each instruction? 
+     * containing the instruction, cycle, addressing mode
+     * then a function can decode it and match it with whatever*/
+    struct instruction {
+    
+    };
 
     /* instructions */
 
-
+  public:
+    // both of these need work
+    chip2A03();
+    ~chip2A03();
 
 };
 
