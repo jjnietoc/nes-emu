@@ -65,14 +65,13 @@ class chip2A03
       INDIRECTY
     };
 
+    /* instructions */
     /* maybe create a struct for each instruction? 
      * containing the instruction, cycle, addressing mode
      * then a function can decode it and match it with whatever*/
     struct instruction {
     
     };
-
-    /* instructions */
 
   public:
     // both of these need work

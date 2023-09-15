@@ -1,5 +1,17 @@
 #include "cpu.hpp"
 
+chip2A03::chip2A03() {
+  // ram from ram.hpp?
+  // i/o
+  // audio
+  // mappers?
+}
+
+chip2A03::~chip2A03() {
+  // delete?
+};
+
+//////* status flags functions and all *//////
 void chip2A03::setStatusFlag(statusFlag sf, flagSet fs) {
   if(fs == UNSET)
     flagRegisterStatus &= ~int(sf);   // unset
@@ -35,3 +47,13 @@ void chip2A03::setNegative(flagSet fs) {
   setStatusFlag(statusFlag::NEGATIVE, fs);
 };
 
+///////////////////////////////////////////////
+
+//////* addressing modes *//////
+// instructionExec(instruction ins, addresssingMode md) {
+// if(addressingMode == whatever) {
+//    if(ins == INS) {
+//      INS();
+//    };
+//   };
+// };
