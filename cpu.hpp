@@ -66,12 +66,22 @@ class chip2A03
     };
 
     /* instructions */
+    /* Option 1: make funcs of all instructions, and just match them
+     * Option 2: store them in array like chip8, check architecture
+     * Option 3: make struct and feed a decoder what it needs */
+
+    //* ---- WIP ---- *//
+    /* instructions */
     /* maybe create a struct for each instruction? 
      * containing the instruction, cycle, addressing mode
-     * then a function can decode it and match it with whatever*/
+     * then a function can decode it and match it with whatever
+     * NOTE consider this but not mandatory to implement. */
     struct instruction {
-    
+      
     };
+
+    void decode(addressingMode am, instruction ins);    // ?????
+    //* ------------- *//
 
   public:
     // both of these need work
