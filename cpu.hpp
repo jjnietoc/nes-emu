@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <array>
+#include <bitset>
 
 #ifndef CPU_HPP
 #define CPU_HPP
@@ -16,6 +17,15 @@ class chip2A03
     uint8_t sp;   // stack pointer
    
     uint8_t flagRegisterStatus;
+
+    int cycle;
+
+    // for checking specific bits in instructions
+    typedef std::bitset<sizeof(uint8_t)>Bits;
+    // check position 7 in registers
+    bool isASet = Bits(a).test(7);
+    bool isXset = Bits(x).test(7);
+    bool isYSet = Bits(y).test(7);
     
     enum class statusFlag {
       CARRY = 1 << 0,   // carry
@@ -28,9 +38,10 @@ class chip2A03
       NEGATIVE = 1 << 7    // negative
     };
 
+    // check the 1 and 0 in the future, NOTE there might be a problem here
     enum flagSet {
-      SET,
-      UNSET
+      SET = 1,
+      UNSET = 0
     };
 
     // funcs to set flags
@@ -83,18 +94,18 @@ class chip2A03
     void BVC();
     void BVS();
     void CLC();
-    void CLD();
-    void CLI();
-    void CLV();
+    void CLD();   // done
+    void CLI();   // done
+    void CLV();   // done
     void CMP();
     void CPX();
     void DEC();
-    void DEX();
-    void DEY();
+    void DEX();   // done
+    void DEY();   // done
     void EOR();
     void INC();
-    void INX();
-    void INY();
+    void INX();   // done
+    void INY();   // done
     void JMP();
     void JSR();
     void LDA();
@@ -112,18 +123,18 @@ class chip2A03
     void RTI();
     void RTS();
     void SBC();
-    void SEC();
-    void SED();
-    void SEI();
+    void SEC();   // done
+    void SED();   // done
+    void SEI();   // done
     void STA();
     void STX();
     void STY();
-    void TAX();
-    void TAY();
-    void TSX();
-    void TXA();
-    void TXS();
-    void TYA();
+    void TAX();   // done
+    void TAY();   // done
+    void TSX();   // done
+    void TXA();   // done
+    void TXS();   // done
+    void TYA();   // done
 
 
     //* ---- WIP ---- *//
