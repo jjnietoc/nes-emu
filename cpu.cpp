@@ -50,6 +50,16 @@ void chip2A03::setNegative(flagSet fs) {
   setStatusFlag(statusFlag::NEGATIVE, fs);
 }
 
+// WIP
+// needs map of the rest of the memory
+void chip2A03::memoryMap(addressingMode ad, uint16_t address, uint8_t data) {
+  if(address >= 0x0 & address <= 0x200)
+    if(ad == READ)
+      ram.read(address);
+    else
+      ram.write(address, data);
+}
+
 ///////////////////////////////////////////////
 
 //////* addressing modes *//////

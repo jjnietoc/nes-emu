@@ -80,6 +80,9 @@ class chip2A03
       INDIRECTY
     };
 
+    // access memory map
+    void memoryMap(addressingMode ad, uint16_t address, uint8_t data);
+
     /* instructions */
     /* Option 1: make funcs of all instructions, and just match them
      * Option 2: store them in array like chip8, check architecture
