@@ -7,11 +7,12 @@ chip2A03::chip2A03() {
   // i/o
   // audio
   // mappers?
+  // init registers, pc, sp
 }
 
 chip2A03::~chip2A03() {
   // delete?
-};
+}
 
 //////* status flags functions and all *//////
 void chip2A03::setStatusFlag(statusFlag sf, flagSet fs) {
@@ -19,35 +20,35 @@ void chip2A03::setStatusFlag(statusFlag sf, flagSet fs) {
     flagRegisterStatus &= ~int(sf);   // unset
   else
     flagRegisterStatus |= int(sf);    // set
-};
+}
 
 void chip2A03::setCarry(flagSet fs) {
   setStatusFlag(statusFlag::CARRY, fs);
-};
+}
 
 void chip2A03::setZero(flagSet fs) {
   setStatusFlag(statusFlag::ZERO, fs);
-};
+}
 
 void chip2A03::setInterrupt(flagSet fs) {
   setStatusFlag(statusFlag::INTERRUPT, fs);
-};
+}
 
 void chip2A03::setDecimal(flagSet fs) {
   setStatusFlag(statusFlag::DECIMAL, fs);
-};
+}
 
 void chip2A03::setBreak(flagSet fs) {
   setStatusFlag(statusFlag::BREAK, fs);
-};
+}
 
 void chip2A03::setOverflow(flagSet fs) {
   setStatusFlag(statusFlag::OVERFLOW, fs);
-};
+}
 
 void chip2A03::setNegative(flagSet fs) {
   setStatusFlag(statusFlag::NEGATIVE, fs);
-};
+}
 
 ///////////////////////////////////////////////
 
@@ -70,12 +71,12 @@ void chip2A03::CLD() {
 // Clear Interrupt Disable
 void chip2A03::CLI() {
   setInterrupt(UNSET);
-};
+}
 
 // Clear Overflow flag
 void chip2A03::CLV() {
   setOverflow(UNSET);
-};
+}
 
 // Decrement X Register
 void chip2A03::DEX() {
@@ -85,7 +86,7 @@ void chip2A03::DEX() {
 
   if(isXset)
     setNegative(SET);
-};
+}
 
 // Decrement Y Register
 void chip2A03::DEY() {
@@ -95,7 +96,7 @@ void chip2A03::DEY() {
 
   if(isYSet)
     setNegative(SET);
-};
+}
 
 // Increment X Register
 void chip2A03::INX() {
@@ -105,7 +106,7 @@ void chip2A03::INX() {
 
   if(isXset)
     setNegative(SET);
-};
+}
 
 // Increment Y Register
 void chip2A03::INY() {
@@ -115,22 +116,22 @@ void chip2A03::INY() {
 
   if(isYSet)
     setNegative(SET);
-};
+}
 
 // Set Carry Flag
 void chip2A03::SEC() {
   setCarry(SET);
-};
+}
 
 // Set Decimal Flag
 void chip2A03::SED() {
   setDecimal(SET);
-};
+}
 
 // Set Interrupt Disable
 void chip2A03::SEI() {
   setInterrupt(SET);
-};
+}
 
 // Transfer Accumulator to X
 void chip2A03::TAX() {
@@ -140,7 +141,7 @@ void chip2A03::TAX() {
 
   if(isXset)
     setNegative(SET);
-};
+}
 
 // Transfer Accumulator to Y
 void chip2A03::TAY() {
@@ -170,12 +171,12 @@ void chip2A03::TXA() {
     setZero(SET);
   if(isASet)
     setNegative(SET);
-};
+}
 
 // transfer X to Stack Pointer
 void chip2A03::TXS() {
   x = sp;
-};
+}
 
 // transfer Y to Accumulator
 void chip2A03::TYA() {
@@ -184,6 +185,6 @@ void chip2A03::TYA() {
     setZero(SET);
   if(isASet)
     setNegative(SET);
-};
+}
 
 
