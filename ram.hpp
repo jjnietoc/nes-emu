@@ -7,10 +7,10 @@
 
 class RAM 
 {
-  public: 
+  private: 
     uint8_t ram[2048] = {0};
 
-  private:
+  public:
     uint8_t read(uint16_t address);
     uint8_t write(uint16_t address, uint8_t data);
   };
