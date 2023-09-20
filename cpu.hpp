@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <array>
 #include <bitset>
+#include "ram.hpp"
 
 #ifndef CPU_HPP
 #define CPU_HPP
@@ -19,6 +20,9 @@ class chip2A03
     uint8_t flagRegisterStatus;
 
     int cycle;
+
+    // work ram for cpu
+    RAM ram;
 
     // for checking specific bits in instructions
     typedef std::bitset<sizeof(uint8_t)>Bits;
