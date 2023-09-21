@@ -51,13 +51,29 @@ void chip2A03::setNegative(flagSet fs) {
 }
 
 // WIP
-// needs map of the rest of the memory
+// needs to implement rest of the parts
+// NOTE some of the gaps in memory are mirrored from other parts,
+// if in the future this doesn't work, try and mirror them.
 void chip2A03::memoryMap(addressingMode ad, uint16_t address, uint8_t data) {
-  if(address >= 0x0 & address <= 0x200)
-    if(ad == READ)
+  if(address >= 0x0 & address < 0x07FF) {
+    if(ad == READ) {
       ram.read(address);
-    else
+    } else {
       ram.write(address, data);
+    };
+  }
+  if(address >= 0x2000 & address < 0x2007)
+    // PPU
+    return;
+  if(address >= 0x4000 & address < 0x401F)
+    // sound, joypads, sprites
+    return;
+  if(address >= 0x6000 & address < 0x7FFF)
+    // cartdrige ram if present, wram
+    return;
+  if(address >= 0x8000 & address < 0xFFFF)
+    // cartridge rom
+    return;
 }
 
 ///////////////////////////////////////////////
