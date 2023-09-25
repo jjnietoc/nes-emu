@@ -12,6 +12,7 @@ chip2A03::chip2A03() {
 
 chip2A03::~chip2A03() {
   // delete?
+  // should be deep delete
 }
 
 //////* status flags functions and all *//////
@@ -48,10 +49,6 @@ void chip2A03::setOverflow(flagStatus fs) {
 
 void chip2A03::setNegative(flagStatus fs) {
   setStatusFlag(statusFlag::negative, fs);
-}
-
-void chip2A03::memoryMirroring(uint16_t address, uint8_t data) {
-  // how to implement this? 
 }
 
 // WIP

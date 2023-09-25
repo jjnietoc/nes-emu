@@ -81,7 +81,6 @@ class chip2A03
     //* --- MEMORY --- *//
     // access memory map
     void memoryMap(addressingMode ad, uint16_t address, uint8_t data);
-    void memoryMirroring(uint16_t address, uint8_t data);
 
     /* instructions */
     /* Option 1: make funcs of all instructions, and just match them
