@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <array>
 #include <bitset>
 #include "ram.hpp"
 
@@ -32,52 +31,52 @@ class chip2A03
     bool isYSet = Bits(y).test(7);
     
     enum class statusFlag {
-      CARRY = 1 << 0,   // carry
-      ZERO = 1 << 1,   // zerO
-      INTERRUPT = 1 << 2,   // interrupt disable
-      DECIMAL = 1 << 3,   // decimal
-      BREAK = 1 << 4,   // break
-      U = 1 << 5,   // unused
-      OVERFLOW = 1 << 6,   // overflow
-      NEGATIVE = 1 << 7    // negative
+      carry = 1 << 0,   // carry
+      zero = 1 << 1,   // zerO
+      interrupt = 1 << 2,   // interrupt disable
+      decimal = 1 << 3,   // decimal
+      break4 = 1 << 4,   // break
+      unused = 1 << 5,   // unused
+      overflow = 1 << 6,   // overflow
+      negative = 1 << 7    // negative
     };
 
     // check the 1 and 0 in the future, NOTE there might be a problem here
-    enum flagSet {
-      SET = 1,
-      UNSET = 0
+    enum flagStatus {
+      setFlag = 1,
+      unsetFlag = 0
     };
 
     // funcs to set flags
-    void setStatusFlag(statusFlag sf, flagSet fs);
-    void setCarry(flagSet fs);
-    void setZero(flagSet fs);
-    void setInterrupt(flagSet fs);
-    void setDecimal(flagSet fs);
-    void setBreak(flagSet fs);
-    void setOverflow(flagSet fs);
-    void setNegative(flagSet fs);
+    void setStatusFlag(statusFlag sf, flagStatus fs);
+    void setCarry(flagStatus fs);
+    void setZero(flagStatus fs);
+    void setInterrupt(flagStatus fs);
+    void setDecimal(flagStatus fs);
+    void setBreak(flagStatus fs);
+    void setOverflow(flagStatus fs);
+    void setNegative(flagStatus fs);
 
     enum memoryAccessMode {
-      READ,
-      WRITE
+      readMode,
+      writeMode
     };
 
     /* addressing modes */
     enum addressingMode {
-      IMPLICIT,
-      ACCUMULATOR,
-      IMMEDIATE,
-      ZEROPAGE,
-      ZEROPAGEX,
-      ZEROPAGEY,
-      ABSOLUTE,
-      ABSOLUTEX,
-      ABSOLUTEY,
-      RELATIVE,
-      INDIRECT,
-      INDIRECTX,
-      INDIRECTY
+      implicit,
+      accumulator,
+      immediate,
+      zeropage,
+      zeropageX,
+      zeropageY,
+      absolute,
+      absoluteX,
+      absoluteY,
+      relative,
+      indirect,
+      indirectX,
+      indirectY
     };
     //* --- MEMORY --- *//
     // access memory map
