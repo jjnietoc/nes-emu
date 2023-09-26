@@ -1,9 +1,11 @@
 #include <stdint.h>
 #include <bitset>
-#include "ram.hpp"
+// #include "bus.hpp"
 
 #ifndef CPU_HPP
 #define CPU_HPP
+
+class Bus;
 
 class chip2A03 
 {
@@ -19,9 +21,6 @@ class chip2A03
     uint8_t flagRegisterStatus;
 
     int cycle;
-
-    // work ram for cpu
-    RAM ram;
 
     // for checking specific bits in instructions
     typedef std::bitset<sizeof(uint8_t)>Bits;
@@ -57,10 +56,7 @@ class chip2A03
     void setOverflow(flagStatus fs);
     void setNegative(flagStatus fs);
 
-    enum memoryAccessMode {
-      readMode,
-      writeMode
-    };
+
 
     /* addressing modes */
     enum addressingMode {
@@ -78,10 +74,7 @@ class chip2A03
       indirectX,
       indirectY
     };
-    //* --- MEMORY --- *//
-    // access memory map
-    void memoryMap(addressingMode ad, uint16_t address, uint8_t data);
-
+   
     /* instructions */
     /* Option 1: make funcs of all instructions, and just match them
      * Option 2: store them in array like chip8, check architecture
