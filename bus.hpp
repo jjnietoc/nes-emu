@@ -13,10 +13,6 @@ class Bus
      * chipXXXX apu */
     
     std::array<uint8_t, 2048> wRAM;   // cpu ram
-    enum memoryAccessMode {
-      readMode,
-      writeMode
-    };
     
   public:
     uint8_t readCPU(uint16_t address);
