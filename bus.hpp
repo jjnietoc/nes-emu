@@ -1,5 +1,5 @@
-#ifndef RAM_HPP_
-#define RAM_HPP_
+#ifndef BUS_HPP_
+#define BUS_HPP_
 
 #include <stdint.h>
 #include "cpu.hpp"
@@ -22,7 +22,8 @@ class Bus
     uint8_t readCPU(uint16_t address);
     void writeCPU(uint16_t address, uint8_t data);
 
-    void memoryMap(memoryAccessMode am, uint16_t address, uint8_t data);
+    void writeMemory(uint16_t address, uint8_t data);
+    void readMemory(uint16_t address);
 };
 
 #endif
