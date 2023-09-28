@@ -15,7 +15,7 @@ void Bus::writeCPU(uint16_t address, uint8_t data) {
 // - create function for reading only
 // needs to implement rest of the parts
 void Bus::writeMemory(uint16_t address, uint8_t data) {
-  if(address >= 0x0 & address < 0x0800) {
+  if(address >= 0x0 & address < 0x07FF) {
       writeCPU(address, data);
     };
 
@@ -25,9 +25,9 @@ void Bus::writeMemory(uint16_t address, uint8_t data) {
 
   // sound, joypads, sprites
   if(address >= 0x4000 & address < 0x401F)
+    return;
 
   // cartdrige ram if present, wram
-    return;
   if(address >= 0x6000 & address < 0x7FFF)
     return;
 
@@ -37,7 +37,7 @@ void Bus::writeMemory(uint16_t address, uint8_t data) {
 }
 
 void Bus::readMemory(uint16_t address) {
-  if(address >= 0x0 & address < 0x0800) {
+  if(address >= 0x0 & address < 0x07FF) {
     readCPU(address);
   }
   
@@ -47,9 +47,9 @@ void Bus::readMemory(uint16_t address) {
 
   // sound, joypads, sprites
   if(address >= 0x4000 & address < 0x401F)
+    return;
 
   // cartdrige ram if present, wram
-    return;
   if(address >= 0x6000 & address < 0x7FFF)
     return;
 
