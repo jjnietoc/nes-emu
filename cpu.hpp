@@ -5,6 +5,12 @@
 #ifndef CPU_HPP
 #define CPU_HPP
 
+// WIP
+// TODO
+// 1. Finish CPU instructions
+// 2. Implement addressing modes
+// 3. Test
+
 class Bus;
 
 class chip2A03 
@@ -24,6 +30,7 @@ class chip2A03
 
     // for checking specific bits in instructions
     typedef std::bitset<sizeof(uint8_t)>Bits;
+
     // check position 7 in registers
     bool isASet = Bits(a).test(7);
     bool isXset = Bits(x).test(7);
@@ -55,7 +62,6 @@ class chip2A03
     void setBreak(flagStatus fs);
     void setOverflow(flagStatus fs);
     void setNegative(flagStatus fs);
-
 
 
     /* addressing modes */
@@ -134,20 +140,6 @@ class chip2A03
     void TXA();   // done
     void TXS();   // done
     void TYA();   // done
-
-
-    //* ---- WIP ---- *//
-    /* instructions */
-    /* maybe create a struct for each instruction? 
-     * containing the instruction, cycle, addressing mode
-     * then a function can decode it and match it with whatever
-     * NOTE consider this but not mandatory to implement. */
-    struct instruction {
-      
-    };
-
-    void decode(addressingMode am, instruction ins);    // ?????
-    //* ------------- *//
 
   public:
     // both of these need work

@@ -3,8 +3,9 @@
 
 #include <stdint.h>
 #include "cpu.hpp"
+#include "memory.hpp"
 
-class Bus 
+class Bus: public Memory    // inherited from memory
 {
   private: 
     chip2A03 cpu;
@@ -15,8 +16,8 @@ class Bus
     std::array<uint8_t, 2048> wRAM;   // cpu ram
     
   public:
-    uint8_t readCPU(uint16_t address);
-    void writeCPU(uint16_t address, uint8_t data);
+    uint8_t read(uint16_t address);
+    void write(uint16_t address, uint8_t data);
 
     void writeMemory(uint16_t address, uint8_t data);
     void readMemory(uint16_t address);
