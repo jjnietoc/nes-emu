@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <bitset>
-// #include "bus.hpp"
+#include "memory.hpp"
 
 #ifndef CPU_HPP
 #define CPU_HPP
@@ -11,9 +11,7 @@
 // 2. Implement addressing modes
 // 3. Test
 
-class Bus;
-
-class chip2A03 
+class chip2A03: public Memory 
 {
   private:
     /* registers */
@@ -26,7 +24,7 @@ class chip2A03
    
     uint8_t flagRegisterStatus;
 
-    int cycle;
+    int cycle;    // for cycle counting??
 
     // for checking specific bits in instructions
     typedef std::bitset<sizeof(uint8_t)>Bits;
@@ -63,6 +61,10 @@ class chip2A03
     void setOverflow(flagStatus fs);
     void setNegative(flagStatus fs);
 
+
+    /* Memory class inheritance */
+    uint8_t read(uint16_t address);
+    void write(uint16_t address, uint8_t data);
 
     /* addressing modes */
     enum addressingMode {
