@@ -1,4 +1,6 @@
 #include "cpu.hpp"
+#include <cstdint>
+
 
 chip2A03::chip2A03() {
   // ram from ram.hpp?
@@ -13,6 +15,46 @@ chip2A03::~chip2A03() {
   // delete?
   // should be deep delete
 }
+
+// Memory and memory access
+uint8_t chip2A03::readCpu(uint16_t address) {
+  return bus(memAccessMode::read, address, 0);
+}
+
+void chip2A03::writeCpu(uint16_t address, uint8_t data) {
+  bus(memAccessMode::write, address, data);
+}
+
+uint8_t chip2A03::bus(memAccessMode mode, uint16_t address, uint8_t data) {
+  uint8_t readData = 0;
+
+  if(address >= 0 && address < 0x2000) {
+    if(mode == memAccessMode::read) {
+      readData = ram.read(address);
+    } else {
+      ram.write(address, data);
+    }
+  } else if(address >= 0x2000 && address < 0x4000) {
+    if(mode == memAccessMode::read) {
+      readData = 0;   // ppu read
+    } else {
+      readData = 0;  // ppu write
+    }
+  } else if(address >= 0x4000 && address < 0x4001) {
+      if(mode == memAccessMode::read) {
+        readData = 0;   // controller read
+      } else {
+        readData = 0;   // controller write
+      }
+  } else if(address >= 0x6000 && address < 0xFFFF) {
+      if(mode == memAccessMode::read) {
+      readData = 0;   // rom read
+    } else {
+      readData = 0;   // rom write
+    }
+  }
+  return readData;
+};
 
 //////* status flags functions and all *//////
 void chip2A03::setStatusFlag(statusFlag sf, flagStatus fs) {
@@ -51,10 +93,12 @@ void chip2A03::setNegative(flagStatus fs) {
 }
 
 
+
+
 ///////////////////////////////////////////////
 
 //////* addressing modes *//////
-// instructionExec(instruction ins, addresssingMode md) {
+// instructionExec(instruction ins, addressingMode md) {
 // if(addressingMode == whatever) {
 //    if(ins == INS) {
 //      INS();

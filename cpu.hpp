@@ -1,6 +1,7 @@
-#include <stdint.h>
+#include <cstdint>
 #include <bitset>
 #include "memory.hpp"
+#include "ram.hpp"
 
 #ifndef CPU_HPP
 #define CPU_HPP
@@ -11,7 +12,7 @@
 // 2. Implement addressing modes
 // 3. Test
 
-class chip2A03: public Memory 
+class chip2A03 
 {
   private:
     /* registers */
@@ -26,9 +27,21 @@ class chip2A03: public Memory
 
     int cycle;    // for cycle counting??
 
+    // memory and memory access
+    Ram ram;
+
+    enum memAccessMode {
+      read,
+      write
+    };
+
+    uint8_t bus(memAccessMode mode, uint16_t address, uint8_t data);
+    uint8_t readCpu(uint16_t address);
+    void writeCpu(uint16_t address, uint8_t data);
+
     // for checking specific bits in instructions
     typedef std::bitset<sizeof(uint8_t)>Bits;
-
+    
     // check position 7 in registers
     bool isASet = Bits(a).test(7);
     bool isXset = Bits(x).test(7);
@@ -60,11 +73,6 @@ class chip2A03: public Memory
     void setBreak(flagStatus fs);
     void setOverflow(flagStatus fs);
     void setNegative(flagStatus fs);
-
-
-    /* Memory class inheritance */
-    uint8_t read(uint16_t address);
-    void write(uint16_t address, uint8_t data);
 
     /* addressing modes */
     enum addressingMode {
