@@ -57,39 +57,39 @@ uint8_t chip2A03::bus(memAccessMode mode, uint16_t address, uint8_t data) {
 };
 
 //////* status flags functions and all *//////
-void chip2A03::setStatusFlag(statusFlag sf, flagStatus fs) {
-  if(fs == unsetFlag)
-    flagRegisterStatus &= ~int(sf);   // unset
-  else
+void chip2A03::setStatusFlag(statusFlag sf, uint8_t value) {
+  if(value)
     flagRegisterStatus |= int(sf);    // set
+  else
+    flagRegisterStatus &= ~int(sf);   // unset
 }
 
-void chip2A03::setCarry(flagStatus fs) {
-  setStatusFlag(statusFlag::carry, fs);
+void chip2A03::setCarry(uint8_t value) {
+  setStatusFlag(statusFlag::carry, value);
 }
 
-void chip2A03::setZero(flagStatus fs) {
-  setStatusFlag(statusFlag::zero, fs);
+void chip2A03::setZero(uint8_t value) {
+  setStatusFlag(statusFlag::zero, value);
 }
 
-void chip2A03::setInterrupt(flagStatus fs) {
-  setStatusFlag(statusFlag::interrupt, fs);
+void chip2A03::setInterrupt(uint8_t value) {
+  setStatusFlag(statusFlag::interrupt, value);
 }
 
-void chip2A03::setDecimal(flagStatus fs) {
-  setStatusFlag(statusFlag::decimal, fs);
+void chip2A03::setDecimal(uint8_t value) {
+  setStatusFlag(statusFlag::decimal, value);
 }
 
-void chip2A03::setBreak(flagStatus fs) {
-  setStatusFlag(statusFlag::break4, fs);
+void chip2A03::setBreak(uint8_t value) {
+  setStatusFlag(statusFlag::break4, value);
 }
 
-void chip2A03::setOverflow(flagStatus fs) {
-  setStatusFlag(statusFlag::overflow, fs);
+void chip2A03::setOverflow(uint8_t value) {
+  setStatusFlag(statusFlag::overflow, value);
 }
 
-void chip2A03::setNegative(flagStatus fs) {
-  setStatusFlag(statusFlag::negative, fs);
+void chip2A03::setNegative(uint8_t value) {
+  setStatusFlag(statusFlag::negative, value);
 }
 
 
@@ -107,6 +107,45 @@ void chip2A03::setNegative(flagStatus fs) {
 // };
 
 //* instructions *//
+
+// Logical AND
+void chip2A03::AND(uint8_t data) {    // comes from memory
+  a &= data;
+  if(a == 0)
+    setZero(setFlag);
+  if(isASet)
+    setNegative(setFlag);
+}
+
+// Arithmetic shift left
+void chip2A03::ASL(uint8_t data) {
+  uint8_t dataBit7 = data & 0x80;
+  data <<= 1;
+  setCarry(dataBit7);
+  if(a == 0)
+    setZero(setFlag);
+  if(isASet)
+    setNegative(setFlag);
+}
+
+// Bit Test: NOTE there might be a problem on how bits are being 
+// delivered to the flag-set functions
+void chip2A03::BIT(uint8_t data) {
+  uint8_t bitTest;
+  bitTest = a & data; 
+  setNegative(data & 0x80);
+  setOverflow(data & 0x70);
+  if(bitTest == 0)
+    setZero(setFlag);
+}
+
+void chip2A03::BRK() {
+  pc++;
+  // push pc to stack
+  uint8_t registerStatusCopy = flagRegisterStatus;
+  // push registerStatusCopy to stack
+  // read and load IRQ into pc
+}
 
 // Clear Decimal Mode
 void chip2A03::CLD() {

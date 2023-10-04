@@ -58,21 +58,22 @@ class chip2A03
       negative = 1 << 7    // negative
     };
 
-    // check the 1 and 0 in the future, NOTE there might be a problem here
+    /* previous entry: check the 1 and 0 in the future, NOTE there might be a problem here
+     current: changed function but kept this to continue previous use. */
     enum flagStatus {
-      setFlag = 1,
-      unsetFlag = 0
+      unsetFlag,
+      setFlag
     };
 
     // funcs to set flags
-    void setStatusFlag(statusFlag sf, flagStatus fs);
-    void setCarry(flagStatus fs);
-    void setZero(flagStatus fs);
-    void setInterrupt(flagStatus fs);
-    void setDecimal(flagStatus fs);
-    void setBreak(flagStatus fs);
-    void setOverflow(flagStatus fs);
-    void setNegative(flagStatus fs);
+    void setStatusFlag(statusFlag sf, uint8_t value);
+    void setCarry(uint8_t value);
+    void setZero(uint8_t value);
+    void setInterrupt(uint8_t value);
+    void setDecimal(uint8_t value);
+    void setBreak(uint8_t value);
+    void setOverflow(uint8_t value);
+    void setNegative(uint8_t value);
 
     /* addressing modes */
     enum addressingMode {
@@ -96,12 +97,12 @@ class chip2A03
      * Option 2: store them in array like chip8, check architecture
      * Option 3: make struct and feed a decoder what it needs */
     void ADC();
-    void AND();
-    void ASL();
-    void BCC();
+    void AND(uint8_t data);   // done
+    void ASL(uint8_t data);
+    void BCC();   // NOTE HOW DOES THIS WORK
     void BCS();
     void BEQ();
-    void BIT();
+    void BIT(uint8_t data);
     void BMI();
     void BNE();
     void BPL();
