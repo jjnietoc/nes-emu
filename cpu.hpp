@@ -102,18 +102,18 @@ class chip2A03
     void BCC();   // NOTE HOW DOES THIS WORK
     void BCS();
     void BEQ();
-    void BIT(uint8_t data);
+    void BIT(uint8_t data);   // done
     void BMI();
     void BNE();
     void BPL();
-    void BRK();
-    void BVC();
+    void BRK();   // wip
+    void BVC();   // 
     void BVS();
-    void CLC();
+    void CLC();   // done
     void CLD();   // done
     void CLI();   // done
     void CLV();   // done
-    void CMP();
+    void CMP(uint8_t data);
     void CPX();
     void DEC();
     void DEX();   // done

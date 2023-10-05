@@ -147,6 +147,20 @@ void chip2A03::BRK() {
   // read and load IRQ into pc
 }
 
+void chip2A03::CLC() {
+  setCarry(unsetFlag);
+}
+
+void chip2A03::CMP(uint8_t data) {
+  uint8_t result = a - data;
+  if(a >= data) 
+    setCarry(setFlag);
+  if(a == data)
+    setZero(setFlag);
+  if(result & 0x80)
+    setNegative(setFlag);
+}
+
 // Clear Decimal Mode
 void chip2A03::CLD() {
   setDecimal(unsetFlag);
