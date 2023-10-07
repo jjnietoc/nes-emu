@@ -113,8 +113,9 @@ class chip2A03
     void CLD();   // done
     void CLI();   // done
     void CLV();   // done
-    void CMP(uint8_t data);
-    void CPX();
+    void CMP(uint8_t data);   // done
+    void CPX(uint8_t data);   // done
+    void CPY(uint8_t data);   // done
     void DEC();
     void DEX();   // done
     void DEY();   // done

@@ -161,6 +161,26 @@ void chip2A03::CMP(uint8_t data) {
     setNegative(setFlag);
 }
 
+void chip2A03::CPX(uint8_t data) {
+  uint8_t result = x - data;
+  if(x >= data)
+    setCarry(setFlag);
+  if(x == data)
+    setZero(setFlag);
+  if(result & 0x80)
+    setNegative(setFlag);
+}
+
+void chip2A03::CPY(uint8_t data) {
+  uint8_t result = y - data;
+  if(y >= data)
+    setCarry(setFlag);
+  if(y == data)
+    setZero(setFlag);
+  if(result & 0x80)
+    setNegative(setFlag);
+}
+
 // Clear Decimal Mode
 void chip2A03::CLD() {
   setDecimal(unsetFlag);
