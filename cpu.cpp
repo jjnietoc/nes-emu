@@ -151,6 +151,22 @@ void chip2A03::CLC() {
   setCarry(unsetFlag);
 }
 
+
+// Clear Decimal Mode
+void chip2A03::CLD() {
+  setDecimal(unsetFlag);
+}
+
+// Clear Interrupt Disable
+void chip2A03::CLI() {
+  setInterrupt(unsetFlag);
+}
+
+// Clear Overflow flag
+void chip2A03::CLV() {
+  setOverflow(unsetFlag);
+}
+
 void chip2A03::CMP(uint8_t data) {
   uint8_t result = a - data;
   if(a >= data) 
@@ -181,19 +197,13 @@ void chip2A03::CPY(uint8_t data) {
     setNegative(setFlag);
 }
 
-// Clear Decimal Mode
-void chip2A03::CLD() {
-  setDecimal(unsetFlag);
-}
+void chip2A03::DEC(uint8_t data) {
+  data--;
+  if(data == 0)
+    setZero(setFlag);
+  if(data & 0x80)
+    setNegative(setFlag);
 
-// Clear Interrupt Disable
-void chip2A03::CLI() {
-  setInterrupt(unsetFlag);
-}
-
-// Clear Overflow flag
-void chip2A03::CLV() {
-  setOverflow(unsetFlag);
 }
 
 // Decrement X Register

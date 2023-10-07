@@ -116,7 +116,7 @@ class chip2A03
     void CMP(uint8_t data);   // done
     void CPX(uint8_t data);   // done
     void CPY(uint8_t data);   // done
-    void DEC();
+    void DEC(uint8_t data);   // done
     void DEX();   // done
     void DEY();   // done
     void EOR();
