@@ -226,6 +226,24 @@ void chip2A03::DEY() {
     setNegative(setFlag);
 }
 
+void chip2A03::EOR(uint8_t data) {
+  a ^= data;
+  if(a == 0)
+    setZero(setFlag);
+  if(isASet)
+    setNegative(setFlag);
+}
+
+uint8_t chip2A03::INC(uint8_t data) {
+  data++;
+  if(data == 0) 
+    setZero(setFlag);
+  if(data & 0x80)
+    setNegative(setFlag);
+  
+  return data;
+}
+
 // Increment X Register
 void chip2A03::INX() {
   x++;
@@ -243,6 +261,14 @@ void chip2A03::INY() {
     setZero(setFlag);
 
   if(isYSet)
+    setNegative(setFlag);
+}
+
+void chip2A03::ORA(uint8_t data) {
+  a |= data;
+  if(a == 0)
+    setZero(setFlag);
+  if(isASet)
     setNegative(setFlag);
 }
 

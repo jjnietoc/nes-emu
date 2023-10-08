@@ -107,7 +107,7 @@ class chip2A03
     void BNE();
     void BPL();
     void BRK();   // wip
-    void BVC();   // 
+    void BVC();    
     void BVS();
     void CLC();   // done
     void CLD();   // done
@@ -119,8 +119,8 @@ class chip2A03
     void DEC(uint8_t data);   // done
     void DEX();   // done
     void DEY();   // done
-    void EOR();
-    void INC();
+    void EOR(uint8_t data);   // done
+    uint8_t INC(uint8_t data);    // done
     void INX();   // done
     void INY();   // done
     void JMP();
@@ -130,7 +130,7 @@ class chip2A03
     void LDY();
     void LSR();
     void NOP();
-    void ORA();
+    void ORA(uint8_t data);   // done
     void PHA();
     void PHP();
     void PLA();
