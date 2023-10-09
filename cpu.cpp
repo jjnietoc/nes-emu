@@ -264,6 +264,34 @@ void chip2A03::INY() {
     setNegative(setFlag);
 }
 
+void chip2A03::LDA(uint8_t data) {
+  a = data;
+  if(a == 0)
+    setZero(setFlag);
+  if(isASet)
+    setNegative(setFlag);
+}
+
+void chip2A03::LDX(uint8_t data) {
+  x = data;
+  if(x == 0)
+    setZero(setFlag);
+  if(isXset)
+    setNegative(setFlag);
+}
+
+void chip2A03::LDY(uint8_t data) {
+  x = data;
+  if(y == 0)
+    setZero(setFlag);
+  if(isYSet)
+    setNegative(setFlag);
+}
+
+void chip2A03::NOP() {
+  pc++;
+}
+
 void chip2A03::ORA(uint8_t data) {
   a |= data;
   if(a == 0)

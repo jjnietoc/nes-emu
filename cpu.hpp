@@ -98,7 +98,7 @@ class chip2A03
      * Option 3: make struct and feed a decoder what it needs */
     void ADC();
     void AND(uint8_t data);   // done
-    void ASL(uint8_t data);
+    void ASL(uint8_t data);   // done
     void BCC();   // NOTE HOW DOES THIS WORK
     void BCS();
     void BEQ();
@@ -125,11 +125,11 @@ class chip2A03
     void INY();   // done
     void JMP();
     void JSR();
-    void LDA();
-    void LDX();
-    void LDY();
+    void LDA(uint8_t data);   // done 
+    void LDX(uint8_t data);   // done
+    void LDY(uint8_t data);   // done
     void LSR();
-    void NOP();
+    void NOP();   // done
     void ORA(uint8_t data);   // done
     void PHA();
     void PHP();
