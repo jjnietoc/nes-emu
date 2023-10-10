@@ -21,7 +21,7 @@ class chip2A03
     uint8_t y;    // index y
 
     uint16_t pc;  // program counter
-    uint8_t sp;   // stack pointer
+    uint8_t sp = 0xFD;   // stack pointer
    
     uint8_t flagRegisterStatus;
 
