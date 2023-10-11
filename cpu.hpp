@@ -21,7 +21,7 @@ class chip2A03
     uint8_t y;    // index y
 
     uint16_t pc;  // program counter
-    uint8_t sp = 0xFD;   // stack pointer
+    uint8_t sp = 0xFF;   // stack pointer
    
     uint8_t flagRegisterStatus;
 
@@ -74,6 +74,10 @@ class chip2A03
     void setBreak(uint8_t value);
     void setOverflow(uint8_t value);
     void setNegative(uint8_t value);
+
+    // stack
+    void popStack(uint8_t data);
+    void pushStack(uint8_t data);
 
     /* addressing modes */
     enum addressingMode {

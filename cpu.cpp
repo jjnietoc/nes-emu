@@ -92,7 +92,24 @@ void chip2A03::setNegative(uint8_t value) {
   setStatusFlag(statusFlag::negative, value);
 }
 
+// stack
+void chip2A03::popStack(uint8_t data) {
+  if(sp == 0xFF)
+    return;   // no items in stack
+  else {
+    ram.write(sp, data);
+    sp++;
+  }
+}
 
+void chip2A03::pushStack(uint8_t data) {
+  if(sp == 0x10)
+    return;   // stak full
+  else {
+    ram.write(sp, data);
+    sp--;
+  }
+}
 
 
 ///////////////////////////////////////////////
