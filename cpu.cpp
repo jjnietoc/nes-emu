@@ -317,6 +317,22 @@ void chip2A03::ORA(uint8_t data) {
     setNegative(setFlag);
 }
 
+void chip2A03::PHA() {
+  pushStack(a);
+}
+
+void chip2A03::PLA() {
+  popStack(a);
+  if(a == 0)
+    setZero(setFlag);
+  if(isASet)
+    setNegative(setFlag);
+}
+
+void chip2A03::RTS() {
+  popStack(pc -1);
+}
+
 // Set Carry Flag
 void chip2A03::SEC() {
   setCarry(setFlag);
