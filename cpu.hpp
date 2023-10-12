@@ -135,9 +135,9 @@ class chip2A03
     void LSR();
     void NOP();   // done
     void ORA(uint8_t data);   // done
-    void PHA();
+    void PHA();   // done
     void PHP();
-    void PLA();
+    void PLA();   // done
     void PLP();
     void ROL();
     void ROR();
