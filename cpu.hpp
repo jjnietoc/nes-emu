@@ -126,8 +126,8 @@ class chip2A03
     void EOR(uint8_t data);   // done
     uint8_t INC(uint8_t data);    // done
     void INX();   // done
-    void INY();   // done
-    void JMP();
+    void INY();   // done  
+    void JMP(uint16_t address);
     void JSR();
     void LDA(uint8_t data);   // done 
     void LDX(uint8_t data);   // done

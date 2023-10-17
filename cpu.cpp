@@ -238,7 +238,6 @@ void chip2A03::DEY() {
   y--;
   if(y == 0)
     setZero(setFlag);
-
   if(isYSet)
     setNegative(setFlag);
 }
@@ -279,6 +278,10 @@ void chip2A03::INY() {
 
   if(isYSet)
     setNegative(setFlag);
+}
+
+void chip2A03::JMP(uint16_t address) {
+  pc = address;
 }
 
 void chip2A03::LDA(uint8_t data) {
@@ -346,6 +349,10 @@ void chip2A03::SED() {
 // Set Interrupt Disable
 void chip2A03::SEI() {
   setInterrupt(setFlag);
+}
+
+void chip2A03::STY() {
+
 }
 
 // Transfer Accumulator to X
