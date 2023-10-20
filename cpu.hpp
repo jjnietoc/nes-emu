@@ -34,6 +34,8 @@ class chip2A03
       read,
       write
     };
+    
+    uint8_t fetchInstruction();
 
     uint8_t bus(memAccessMode mode, uint16_t address, uint8_t data);
     uint8_t readCpu(uint16_t address);

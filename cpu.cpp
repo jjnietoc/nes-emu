@@ -25,6 +25,10 @@ void chip2A03::writeCpu(uint16_t address, uint8_t data) {
   bus(memAccessMode::write, address, data);
 }
 
+uint8_t chip2A03::fetchInstruction() {
+  return readCpu(pc);
+}
+
 uint8_t chip2A03::bus(memAccessMode mode, uint16_t address, uint8_t data) {
   uint8_t readData = 0;
 
