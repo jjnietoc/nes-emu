@@ -108,7 +108,7 @@ void chip2A03::popStack(uint8_t data) {
 
 void chip2A03::pushStack(uint8_t data) {
   if(sp == 0x10)
-    return;   // stak full
+    return;   // stack full
   else {
     ram.write(sp, data);
     sp--;
