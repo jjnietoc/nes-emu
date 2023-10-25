@@ -120,6 +120,8 @@ class chip2A03
           Negative = 7
         };
         static constexpr unsigned Size = SFSize;
+        
+        void setF(uint8_t flag);
 
         constexpr SF(std::uint8_t value):
           std::bitset<SFSize>((unsigned long long)value)
@@ -139,6 +141,7 @@ class chip2A03
   {  
   }
     } r;
+
    
     /* instructions */
     /* Option 1: make funcs of all instructions, and just match them

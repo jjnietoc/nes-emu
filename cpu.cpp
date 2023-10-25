@@ -127,6 +127,10 @@ void chip2A03::pushStack(uint8_t data) {
 //   };
 // };
 
+void chip2A03::Registers::SF::setF(uint8_t flag) {
+  return SF::Flags | ((uint8_t)1 << flag);
+};
+
 //* instructions *//
 
 // Logical AND
@@ -406,9 +410,9 @@ void chip2A03::TXS() {
 
 // transfer Y to Accumulator
 void chip2A03::TYA() {
-  a = y;
-  if(a == 0)
-    setZero(setFlag);
+  r.A = r.Y;
+  if(r.A == 0)
+    Registers::SF::Flags::Zero;
   if(isASet)
     setNegative(setFlag);
 }
