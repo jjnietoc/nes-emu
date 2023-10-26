@@ -142,6 +142,11 @@ class chip2A03
   }
     } r;
 
+// this came to me in a dream
+  uint8_t flags[8] = {};    // just use an array of uint8_t for the flags
+  uint8_t flagsStatus();
+    
+/* -- end test zone -- */
    
     /* instructions */
     /* Option 1: make funcs of all instructions, and just match them

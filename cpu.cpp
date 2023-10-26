@@ -126,6 +126,13 @@ void chip2A03::pushStack(uint8_t data) {
 //    };
 //   };
 // };
+//
+uint8_t chip2A03::flagsStatus() {
+  uint8_t flagsCopy[8];
+  for(auto i = 0; i < 9; i++)
+    flags[i] = flagsCopy[i];
+  return flagsCopy;
+}
 
 void chip2A03::Registers::SF::setF(uint8_t flag) {
   return SF::Flags | ((uint8_t)1 << flag);
