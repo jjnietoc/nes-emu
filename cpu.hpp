@@ -34,13 +34,15 @@ class chip2A03
       read,
       write
     };
-    
+  
+  public:
     uint8_t fetchInstruction();
 
     uint8_t bus(memAccessMode mode, uint16_t address, uint8_t data);
     uint8_t readCpu(uint16_t address);
     void writeCpu(uint16_t address, uint8_t data);
 
+  private:
     // for checking specific bits in instructions
     typedef std::bitset<sizeof(uint8_t)>Bits;
     
@@ -67,6 +69,7 @@ class chip2A03
       setFlag
     };
 
+  public:
     // funcs to set flags
     void setStatusFlag(statusFlag sf, uint8_t value);
     void setCarry(uint8_t value);
@@ -81,6 +84,7 @@ class chip2A03
     void popStack(uint8_t data);
     void pushStack(uint8_t data);
 
+  private:
     /* addressing modes */
     enum addressingMode {
       implicit,
@@ -138,8 +142,7 @@ class chip2A03
         SP(0xFF),
         SF(0x24),   // SF(0b00100100)
         PC(0)
-  {  
-  }
+  {}
     } r;
 
 // this came to me in a dream
