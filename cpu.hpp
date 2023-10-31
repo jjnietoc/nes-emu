@@ -103,53 +103,9 @@ class chip2A03
     };
 
     /* --- Test zone ---
-     * NOTE: this is a new way to do registers to allow copying in BRK 
-     * and a better way of setting and unsetting flags */
-    struct Registers {
-      uint8_t A;
-      uint8_t X;
-      uint8_t Y;
-      uint8_t SP;
-      static constexpr uint8_t SFSize = 8;
 
-      struct SF: std::bitset<SFSize> {
-        enum Flags {
-          Carry = 0,
-          Zero = 1,
-          InterruptDisable = 2,
-          Decimal = 3,
-          Break = 4,
-          Unused = 5,
-          Overflow = 6,
-          Negative = 7
-        };
-        static constexpr unsigned Size = SFSize;
-        
-        void setF(uint8_t flag);
-
-        constexpr SF(std::uint8_t value):
-          std::bitset<SFSize>((unsigned long long)value)
-        { }
-    std::uint8_t value() const { return (std::uint8_t)to_ulong(); }
-      } SF;
-
-      uint16_t PC;
-
-      constexpr Registers() noexcept :
-        A(0),
-        X(0),
-        Y(0),
-        SP(0xFF),
-        SF(0x24),   // SF(0b00100100)
-        PC(0)
-  {}
-    } r;
-
-// this came to me in a dream
-  uint8_t flags[8] = {};    // just use an array of uint8_t for the flags
-  uint8_t flagsStatus();
     
-/* -- end test zone -- */
+    --- end test zone -- */
    
     /* instructions */
     /* Option 1: make funcs of all instructions, and just match them
