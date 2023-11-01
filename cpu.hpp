@@ -50,16 +50,18 @@ class chip2A03
     bool isASet = Bits(a).test(7);
     bool isXset = Bits(x).test(7);
     bool isYSet = Bits(y).test(7);
+
+    typedef std::bitset<8> flags;
     
-    enum class statusFlag {
-      carry = 1 << 0,   // carry
-      zero = 1 << 1,   // zerO
-      interrupt = 1 << 2,   // interrupt disable
-      decimal = 1 << 3,   // decimal
-      break4 = 1 << 4,   // break
-      unused = 1 << 5,   // unused
-      overflow = 1 << 6,   // overflow
-      negative = 1 << 7    // negative
+    enum class statusFlag : char {
+      carry,   // carry
+      zero,   // zero
+      interrupt,   // interrupt disable
+      decimal,   // decimal
+      brk,   // break
+      unused,   // unused
+      overflow,   // overflow
+      negative    // negative
     };
 
     /* previous entry: check the 1 and 0 in the future, NOTE there might be a problem here
