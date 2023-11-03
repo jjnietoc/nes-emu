@@ -51,7 +51,7 @@ class chip2A03
     bool isXset = Bits(x).test(7);
     bool isYSet = Bits(y).test(7);
 
-    typedef std::bitset<8> flags;
+    typedef std::bitset<sizeof(uint8_t)> flags;
     
     enum class statusFlag : char {
       carry,   // carry
