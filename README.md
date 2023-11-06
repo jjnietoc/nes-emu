@@ -6,7 +6,12 @@ Currently in development.
 Currently implementing: cpu
 
 
-Log:
+### Log:
+- Refactoring for flags is done.
+- Next step should be tackling subroutines and bitset snapshot to finish instructions.
+
+#### Previous Logs:
+##### Nov 1, 2023:
 - After many attempts at doing flags, I've decided to use std::bitset and just set and unset using the included methods.
 - Bitset and enum class should work together to tacke specific bytes. 
 - Should check enum flagStatus and set/unset functions as they may be deprecated now.
