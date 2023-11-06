@@ -85,7 +85,7 @@ void chip2A03::setDecimal(uint8_t value) {
 }
 
 void chip2A03::setBreak(uint8_t value) {
-  setStatusFlag(statusFlag::break4, value);
+  setStatusFlag(statusFlag::brk, value);
 }
 
 void chip2A03::setOverflow(uint8_t value) {
@@ -133,20 +133,20 @@ void chip2A03::pushStack(uint8_t data) {
 void chip2A03::AND(uint8_t data) {    // comes from memory
   a &= data;
   if(a == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isASet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 // Arithmetic shift left
 void chip2A03::ASL(uint8_t data) {
   uint8_t dataBit7 = data & 0x80;
   data <<= 1;
-  setCarry(dataBit7);
+  sflags.set(carry, dataBit7);
   if(a == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isASet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 // Bit Test: NOTE there might be a problem on how bits are being 
@@ -154,10 +154,10 @@ void chip2A03::ASL(uint8_t data) {
 void chip2A03::BIT(uint8_t data) {
   uint8_t bitTest;
   bitTest = a & data; 
-  setNegative(data & 0x80);
-  setOverflow(data & 0x70);
+  sflags.set(negative, (data & 0x80));
+  sflags.set(overflow, (data & 0x70));
   if(bitTest == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
 }
 
 void chip2A03::BRK() {
@@ -169,61 +169,60 @@ void chip2A03::BRK() {
 }
 
 void chip2A03::CLC() {
-  setCarry(unsetFlag);
+  sflags.set(carry, unset);
 }
-
 
 // Clear Decimal Mode
 void chip2A03::CLD() {
-  setDecimal(unsetFlag);
+  sflags.set(decimal, unset);
 }
 
 // Clear Interrupt Disable
 void chip2A03::CLI() {
-  setInterrupt(unsetFlag);
+  sflags.set(interrupt, unset);
 }
 
 // Clear Overflow flag
 void chip2A03::CLV() {
-  setOverflow(unsetFlag);
+  sflags.set(overflow, unset);
 }
 
 void chip2A03::CMP(uint8_t data) {
   uint8_t result = a - data;
   if(a >= data) 
-    setCarry(setFlag);
+    sflags.set(carry, set);
   if(a == data)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(result & 0x80)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::CPX(uint8_t data) {
   uint8_t result = x - data;
   if(x >= data)
-    setCarry(setFlag);
+    sflags.set(carry, set);
   if(x == data)
-    setZero(setFlag);
+    sflags.set(carry, set);
   if(result & 0x80)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::CPY(uint8_t data) {
   uint8_t result = y - data;
   if(y >= data)
-    setCarry(setFlag);
+    sflags.set(carry, set);
   if(y == data)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(result & 0x80)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::DEC(uint8_t data) {
   data--;
   if(data == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(data & 0x80)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 
 }
 
@@ -231,35 +230,34 @@ void chip2A03::DEC(uint8_t data) {
 void chip2A03::DEX() {
   x--;
   if(x == 0)
-    setZero(setFlag);
-
+    sflags.set(zero, set);
   if(isXset)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 // Decrement Y Register
 void chip2A03::DEY() {
   y--;
   if(y == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isYSet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::EOR(uint8_t data) {
   a ^= data;
   if(a == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isASet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 uint8_t chip2A03::INC(uint8_t data) {
   data++;
   if(data == 0) 
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(data & 0x80)
-    setNegative(setFlag);
+    sflags.set(negative, set);
   
   return data;
 }
@@ -268,20 +266,20 @@ uint8_t chip2A03::INC(uint8_t data) {
 void chip2A03::INX() {
   x++;
   if(x == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
 
   if(isXset)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 // Increment Y Register
 void chip2A03::INY() {
   y++;
   if(y == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
 
   if(isYSet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::JMP(uint16_t address) {
@@ -291,25 +289,25 @@ void chip2A03::JMP(uint16_t address) {
 void chip2A03::LDA(uint8_t data) {
   a = data;
   if(a == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isASet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::LDX(uint8_t data) {
   x = data;
   if(x == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isXset)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::LDY(uint8_t data) {
   x = data;
   if(y == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isYSet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::NOP() {
@@ -319,9 +317,9 @@ void chip2A03::NOP() {
 void chip2A03::ORA(uint8_t data) {
   a |= data;
   if(a == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isASet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::PHA() {
@@ -331,9 +329,9 @@ void chip2A03::PHA() {
 void chip2A03::PLA() {
   popStack(a);
   if(a == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isASet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 void chip2A03::RTS() {
@@ -342,17 +340,17 @@ void chip2A03::RTS() {
 
 // Set Carry Flag
 void chip2A03::SEC() {
-  setCarry(setFlag);
+  sflags.set(carry, set);
 }
 
 // Set Decimal Flag
 void chip2A03::SED() {
-  setDecimal(setFlag);
+  sflags.set(decimal,set);
 }
 
 // Set Interrupt Disable
 void chip2A03::SEI() {
-  setInterrupt(setFlag);
+  sflags.set(interrupt, set);
 }
 
 void chip2A03::STY() {
@@ -363,30 +361,30 @@ void chip2A03::STY() {
 void chip2A03::TAX() {
   x = a;
   if(x == 0)
-    setNegative(setFlag);
+    sflags.set(zero, set);
 
   if(isXset)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 // Transfer Accumulator to Y
 void chip2A03::TAY() {
   y = a;
   if(y == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
 
   if(isYSet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 // Transfer Stack Pointer to X
 void chip2A03::TSX() {
   sp = x;
   if(x == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
 
   if(isXset)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 
 }
 
@@ -394,9 +392,9 @@ void chip2A03::TSX() {
 void chip2A03::TXA() {
   a = x;
   if(a == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isASet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 // transfer X to Stack Pointer
@@ -408,9 +406,9 @@ void chip2A03::TXS() {
 void chip2A03::TYA() {
   a = y;
   if(a == 0)
-    setZero(setFlag);
+    sflags.set(zero, set);
   if(isASet)
-    setNegative(setFlag);
+    sflags.set(negative, set);
 }
 
 

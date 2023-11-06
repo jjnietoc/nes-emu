@@ -23,7 +23,7 @@ class chip2A03
     uint16_t pc;  // program counter
     uint8_t sp = 0xFF;   // stack pointer
    
-    uint8_t flagRegisterStatus;
+    uint8_t flagRegisterStatus; // this should be another bitset?
 
     int cycle;    // for cycle counting??
 
@@ -51,9 +51,9 @@ class chip2A03
     bool isXset = Bits(x).test(7);
     bool isYSet = Bits(y).test(7);
 
-    typedef std::bitset<sizeof(uint8_t)> flags;
+    std::bitset<sizeof(uint8_t)> sflags;
     
-    enum class statusFlag : char {
+    enum statusFlag : char {
       carry,   // carry
       zero,   // zero
       interrupt,   // interrupt disable
@@ -67,21 +67,11 @@ class chip2A03
     /* previous entry: check the 1 and 0 in the future, NOTE there might be a problem here
      current: changed function but kept this to continue previous use. */
     enum flagStatus {
-      unsetFlag,
-      setFlag
+      unset,
+      set
     };
 
   public:
-    // funcs to set flags
-    void setStatusFlag(statusFlag sf, uint8_t value);
-    void setCarry(uint8_t value);
-    void setZero(uint8_t value);
-    void setInterrupt(uint8_t value);
-    void setDecimal(uint8_t value);
-    void setBreak(uint8_t value);
-    void setOverflow(uint8_t value);
-    void setNegative(uint8_t value);
-
     // stack
     void popStack(uint8_t data);
     void pushStack(uint8_t data);
