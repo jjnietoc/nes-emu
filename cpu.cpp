@@ -60,42 +60,6 @@ uint8_t chip2A03::bus(memAccessMode mode, uint16_t address, uint8_t data) {
   return readData;
 };
 
-//////* status flags functions and all *//////
-void chip2A03::setStatusFlag(statusFlag sf, uint8_t value) {
-  if(value)
-    flagRegisterStatus |= int(sf);    // set
-  else
-    flagRegisterStatus &= ~int(sf);   // unset
-}
-
-void chip2A03::setCarry(uint8_t value) {
-  setStatusFlag(statusFlag::carry, value);
-}
-
-void chip2A03::setZero(uint8_t value) {
-  setStatusFlag(statusFlag::zero, value);
-}
-
-void chip2A03::setInterrupt(uint8_t value) {
-  setStatusFlag(statusFlag::interrupt, value);
-}
-
-void chip2A03::setDecimal(uint8_t value) {
-  setStatusFlag(statusFlag::decimal, value);
-}
-
-void chip2A03::setBreak(uint8_t value) {
-  setStatusFlag(statusFlag::brk, value);
-}
-
-void chip2A03::setOverflow(uint8_t value) {
-  setStatusFlag(statusFlag::overflow, value);
-}
-
-void chip2A03::setNegative(uint8_t value) {
-  setStatusFlag(statusFlag::negative, value);
-}
-
 // stack
 void chip2A03::popStack(uint8_t data) {
   if(sp == 0xFF)
