@@ -95,15 +95,13 @@ class chip2A03
     };
 
     /* --- Test zone ---
-
-    
     --- end test zone -- */
    
     /* instructions */
     /* Option 1: make funcs of all instructions, and just match them
      * Option 2: store them in array like chip8, check architecture
      * Option 3: make struct and feed a decoder what it needs */
-    void ADC();
+    void ADC(uint8_t data);   // done
     void AND(uint8_t data);   // done
     void ASL(uint8_t data);   // done
     void BCC();   // NOTE HOW DOES THIS WORK

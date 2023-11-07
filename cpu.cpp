@@ -92,6 +92,20 @@ void chip2A03::pushStack(uint8_t data) {
 // };
 
 //* instructions *//
+void chip2A03::ADC(uint8_t data) {
+  uint16_t sum = data + a + sflags[carry];
+  sflags[carry] = sum & 0x100;
+  sflags[overflow] = (a ^ sum) & (data ^ sum) & 0x80;
+  a = sum;
+  if(sflags[overflow] == 1)
+    sflags.set(carry, set);
+  if(a == 0)
+    sflags.set(zero, set);
+  // missing overflow set
+  if(isASet)
+    sflags.set(negative, set);
+
+}
 
 // Logical AND
 void chip2A03::AND(uint8_t data) {    // comes from memory
