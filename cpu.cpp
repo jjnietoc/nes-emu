@@ -312,6 +312,13 @@ void chip2A03::PLA() {
     sflags.set(negative, set);
 }
 
+void chip2A03::PHP() {
+  uint8_t sflagsCopy = (uint8_t)(sflags.to_ulong());
+  sflagsCopy |= (1 << 4);
+  sflagsCopy |= (1 << 5);
+  pushStack(sflagsCopy);
+}
+
 void chip2A03::RTS() {
   popStack(pc -1);
 }
