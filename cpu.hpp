@@ -73,7 +73,7 @@ class chip2A03
 
   public:
     // stack
-    void popStack(uint8_t data);
+    uint8_t popStack();
     void pushStack(uint8_t data);
 
   private:
@@ -139,7 +139,7 @@ class chip2A03
     void PHA();   // done
     void PHP();   // done
     void PLA();   // done
-    void PLP();
+    void PLP();   // done
     void ROL();
     void ROR();
     void RTI();
