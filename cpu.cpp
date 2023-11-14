@@ -61,13 +61,14 @@ uint8_t chip2A03::bus(memAccessMode mode, uint16_t address, uint8_t data) {
 };
 
 // stack
-void chip2A03::popStack(uint8_t data) {
+uint8_t chip2A03::popStack() {
+  uint8_t data;
   if(sp == 0xFF)
-    return;   // no items in stack
-  else {
-    ram.write(sp, data);
-    sp++;
-  }
+    return 0;   // no items in stack NOTE is this ok??
+  else
+    data = ram.read(sp);
+  sp++;
+  return data;
 }
 
 void chip2A03::pushStack(uint8_t data) {
@@ -305,11 +306,16 @@ void chip2A03::PHA() {
 }
 
 void chip2A03::PLA() {
-  popStack(a);
+  a = popStack();
   if(a == 0)
     sflags.set(zero, set);
   if(isASet)
     sflags.set(negative, set);
+}
+
+void chip2A03::PLP() {
+  std::bitset<sizeof(uint8_t)>flags = popStack();
+  sflags = flags;
 }
 
 void chip2A03::PHP() {
@@ -320,7 +326,9 @@ void chip2A03::PHP() {
 }
 
 void chip2A03::RTS() {
-  popStack(pc -1);
+  pc = popStack();
+  pc |= popStack() << 8;
+  ++pc;
 }
 
 // Set Carry Flag
@@ -339,7 +347,7 @@ void chip2A03::SEI() {
 }
 
 void chip2A03::STY() {
-
+  
 }
 
 // Transfer Accumulator to X
