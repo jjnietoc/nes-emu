@@ -16,16 +16,22 @@ class chip2A03
 {
   private:
     /* registers */
-    uint8_t a;    // accumulator
-    uint8_t x;    // index x
-    uint8_t y;    // index y
+    uint8_t a = 0x00;    // accumulator
+    uint8_t x = 0x00;    // index x
+    uint8_t y = 0x00;    // index y
 
-    uint16_t pc;  // program counter
-    uint8_t sp = 0xFF;   // stack pointer
+    uint16_t pc = 0x0000;  // program counter
+    uint8_t sp = 0x00;   // stack pointer
    
-    uint8_t flagRegisterStatus; // this should be another bitset?
+    uint8_t flagRegisterStatus = 0x00; // this should be another bitset?
 
-    int cycle;    // for cycle counting??
+    uint8_t fetchData = 0x00;    // for global data usage
+    uint16_t temp = 0x0000;    // for global usage 
+    uint16_t addr = 0x0000;    // for memory addresses
+    uint16_t addr_brch = 0x00;    // for memory following branch
+    uint8_t opcode = 0x00;   // instruction
+    uint8_t cyle = 0;    // cycle count
+    uint32_t clock = 0;   // number of clocks
 
     // memory and memory access
     Ram ram;
@@ -93,6 +99,9 @@ class chip2A03
       indirectX,
       indirectY
     };
+
+    // addressing modes should be functions
+    
 
     /* --- Test zone ---
     --- end test zone -- */
