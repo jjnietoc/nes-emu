@@ -40,16 +40,8 @@ class chip2A03
       read,
       write
     };
-  
-  public:
-    uint8_t fetchInstruction();
 
-    uint8_t bus(memAccessMode mode, uint16_t address, uint8_t data);
-    uint8_t readCpu(uint16_t address);
-    void writeCpu(uint16_t address, uint8_t data);
-
-  private:
-    // for checking specific bits in instructions
+// for checking specific bits in instructions
     typedef std::bitset<sizeof(uint8_t)>Bits;
     
     // check position 7 in registers
@@ -77,35 +69,31 @@ class chip2A03
       set
     };
 
+  
   public:
+    uint8_t fetchInstruction();
+
+    uint8_t bus(memAccessMode mode, uint16_t address, uint8_t data);
+    uint8_t readCpu(uint16_t address);
+    void writeCpu(uint16_t address, uint8_t data);
+    
     // stack
     uint8_t popStack();
     void pushStack(uint8_t data);
 
-  private:
-    /* addressing modes */
-    enum addressingMode {
-      implicit,
-      accumulator,
-      immediate,
-      zeropage,
-      zeropageX,
-      zeropageY,
-      absolute,
-      absoluteX,
-      absoluteY,
-      relative,
-      indirect,
-      indirectX,
-      indirectY
-    };
+    // addressing modes
+    uint16_t addrImmediate();
+    uint16_t addrZeroPage();
+    uint16_t addrZeroPageX();
+    uint16_t addrZeroPageY();
+    uint16_t addrRelative();
+    uint16_t addrAbsolute();
+    uint16_t addrAbsoluteX();
+    uint16_t addrAbsoluteY();
+    uint16_t addrIndirect();
+    uint16_t addrIndexIndirect();
+    uint16_t addrIndirectIndex();
 
-    // addressing modes should be functions
-    
-
-    /* --- Test zone ---
-    --- end test zone -- */
-   
     /* instructions */
     /* Option 1: make funcs of all instructions, and just match them
      * Option 2: store them in array like chip8, check architecture
