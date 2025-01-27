@@ -2,6 +2,7 @@
 #include <bitset>
 #include "memory.hpp"
 #include "ram.hpp"
+#include "tools.hpp"
 
 #ifndef CPU_HPP
 #define CPU_HPP
@@ -15,60 +16,31 @@
 class chip2A03 
 {
   private:
-    /* registers */
-    uint8_t a = 0x00;    // accumulator
-    uint8_t x = 0x00;    // index x
-    uint8_t y = 0x00;    // index y
+  /* registers */ 
+  // TODO how is their starting state?
+  nes::Register A;
+  nes::Register X;
+  nes::Register Y;
+  nes::Register SP;
+  nes::PC PC;
+  
+  nes::Register Flags; 
 
-    uint16_t pc = 0x0000;  // program counter
-    uint8_t sp = 0x00;   // stack pointer
-   
-    uint8_t flagRegisterStatus = 0x00; // this should be another bitset?
-
-    uint8_t fetchData = 0x00;    // for global data usage
-    uint16_t temp = 0x0000;    // for global usage 
-    uint16_t addr = 0x0000;    // for memory addresses
-    uint16_t addr_brch = 0x00;    // for memory following branch
-    uint8_t opcode = 0x00;   // instruction
-    uint8_t cyle = 0;    // cycle count
-    uint32_t clock = 0;   // number of clocks
+  uint8_t fetchData = 0x00;    // for global data usage
+  uint16_t temp = 0x0000;    // for global usage 
+  uint16_t addr = 0x0000;    // for memory addresses
+  uint16_t addr_brch = 0x00;    // for memory following branch
+  uint8_t opcode = 0x00;   // instruction
+  uint8_t cyle = 0;    // cycle count
+  uint32_t clock = 0;   // number of clocks
 
     // memory and memory access
-    Ram ram;
+  Ram ram;
 
-    enum memAccessMode {
+  enum memAccessMode {
       read,
       write
     };
-
-// for checking specific bits in instructions
-    typedef std::bitset<sizeof(uint8_t)>Bits;
-    
-    // check position 7 in registers
-    bool isASet = Bits(a).test(7);
-    bool isXset = Bits(x).test(7);
-    bool isYSet = Bits(y).test(7);
-
-    std::bitset<sizeof(uint8_t)> sflags;
-    
-    enum statusFlag : char {
-      carry,   // carry
-      zero,   // zero
-      interrupt,   // interrupt disable
-      decimal,   // decimal
-      brk,   // break
-      unused,   // unused
-      overflow,   // overflow
-      negative    // negative
-    };
-
-    /* previous entry: check the 1 and 0 in the future, NOTE there might be a problem here
-     current: changed function but kept this to continue previous use. */
-    enum flagStatus {
-      unset,
-      set
-    };
-
   
   public:
     uint8_t fetchInstruction();
