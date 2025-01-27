@@ -1,19 +1,21 @@
-#ifndef BUS_HPP_
-#define BUS_HPP_
+#ifndef RAM_HPP_
+#define RAM_HPP_
 
-#include <memory>
 #include <cstdint>
-#include "memory.hpp"
-#include <vector>
+#include "tools.hpp"
 
-class Ram: public Memory    // inherited from memory
+class Ram
 {
-  private: 
-    uint8_t wram[2048];   // cpu ram
-
+  private:
+  nes::Memory RAM;
+  uint8_t wram[2048];   // cpu ram
+  
   public:
-    uint8_t read(uint16_t address);
-    void write(uint16_t address, uint8_t data);
+  Ram();
+  ~Ram();
+
+  uint8_t read(uint16_t address);
+  void write(uint16_t address, uint8_t data);
 };
 
 #endif
