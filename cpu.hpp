@@ -1,6 +1,4 @@
 #include <cstdint>
-#include <bitset>
-#include "memory.hpp"
 #include "ram.hpp"
 #include "tools.hpp"
 
