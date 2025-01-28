@@ -10,7 +10,15 @@ namespace nes {
   
   typedef std::bitset<2048>Memory;
 
-  constexpr bool isBitSet(Register reg, int pos);
+  inline constexpr bool isBitSet(const Register reg, const int pos) {
+    return reg.test(pos);
+  };
+
+  
+
+  // populate
+// chekbit
+// 
 }
 
 #endif
