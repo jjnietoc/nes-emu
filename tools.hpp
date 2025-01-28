@@ -7,18 +7,22 @@ namespace nes {
   // registers 
   typedef std::bitset<8>Register;
   typedef std::bitset<16>PC;
-  
   typedef std::bitset<2048>Memory;
 
   inline constexpr bool isBitSet(const Register reg, const int pos) {
     return reg.test(pos);
-  };
+  }  
 
-  
+  inline constexpr void setBit(Register reg, const int pos) {
+    reg.set(pos, true);
+  }
+
+  inline constexpr void unsetBit(Register reg, const int pos) {
+    reg.set(pos, false);
+  }
+
 
   // populate
-// chekbit
-// 
 }
 
 #endif
