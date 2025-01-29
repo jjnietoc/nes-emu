@@ -20,7 +20,14 @@ namespace nes {
   inline constexpr void unsetBit(Register reg, const int pos) {
     reg.set(pos, false);
   }
+  
+  inline void shiftLeft(Register reg) {
+    reg << 1;
+  } 
 
+  inline void shiftRight(Register reg) {
+    reg >> 1;
+  }
 
   // populate
 }
