@@ -13,11 +13,11 @@ namespace nes {
     return reg.test(pos);
   }  
 
-  inline constexpr void setBit(Register reg, const int pos) {
+  inline void setBit(Register reg, const int pos) {
     reg.set(pos, true);
   }
 
-  inline constexpr void unsetBit(Register reg, const int pos) {
+  inline void unsetBit(Register reg, const int pos) {
     reg.set(pos, false);
   }
   
