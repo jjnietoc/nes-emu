@@ -15,7 +15,6 @@ class chip2A03
 {
   private:
   /* registers */ 
-  // TODO how is their starting state?
   nes::Register A;
   nes::Register X;
   nes::Register Y;
@@ -34,21 +33,16 @@ class chip2A03
     negative = 7
   }; // blue note: access them with SR[carry]
   
-  uint8_t fetchData = 0x00;    // for global data usage
-  uint16_t temp = 0x0000;    // for global usage 
-  uint16_t addr = 0x0000;    // for memory addresses
-  uint16_t addr_brch = 0x00;    // for memory following branch
-  uint8_t opcode = 0x00;   // instruction
-  uint8_t cyle = 0;    // cycle count
-  uint32_t clock = 0;   // number of clocks
+    // red memory and memory access
+  nes::Memory ram;
+  
+  inline uint8_t read(const uint16_t address) {
+    return ram[address];
+  };
 
-    // memory and memory access
-  Ram ram;
-
-  enum memAccessMode {
-      read,
-      write
-    };
+  inline void write(const uint16_t address, uint8_t data) {
+    ram[address] = data;
+  }
   
   public:
     uint8_t fetchInstruction();
