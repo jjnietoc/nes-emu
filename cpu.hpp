@@ -21,9 +21,19 @@ class chip2A03
   nes::Register Y;
   nes::Register SP;
   nes::PC PC;
-  
-  nes::Register Flags; 
+  nes::Register SR;
 
+  enum sFlags {
+    carry = 0,
+    zero = 1,
+    interrupt = 2,
+    decimal = 3,
+    brk = 4,
+    na = 5,
+    overflow = 6,
+    negative = 7
+  }; // blue note: access them with SR[carry]
+  
   uint8_t fetchData = 0x00;    // for global data usage
   uint16_t temp = 0x0000;    // for global usage 
   uint16_t addr = 0x0000;    // for memory addresses
