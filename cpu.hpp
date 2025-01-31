@@ -1,5 +1,4 @@
 #include <cstdint>
-#include "ram.hpp"
 #include "tools.hpp"
 
 #ifndef CPU_HPP
@@ -13,7 +12,7 @@
 
 class chip2A03 
 {
-  private:
+private:
   /* registers */ 
   nes::Register A;
   nes::Register X;
@@ -31,11 +30,13 @@ class chip2A03
     na = 5,
     overflow = 6,
     negative = 7
-  }; // blue note: access them with SR[carry]
+  }; // blue note: access them with SR[sFlags::carry]
   
-    // red memory and memory access
+    // memory and memory access
   nes::Memory ram;
   
+  public:
+ // memory methods
   inline uint8_t read(const uint16_t address) {
     return ram[address];
   };
@@ -43,30 +44,9 @@ class chip2A03
   inline void write(const uint16_t address, uint8_t data) {
     ram[address] = data;
   }
-  
-  public:
-    uint8_t fetchInstruction();
-
-    uint8_t bus(memAccessMode mode, uint16_t address, uint8_t data);
-    uint8_t readCpu(uint16_t address);
-    void writeCpu(uint16_t address, uint8_t data);
-    
     // stack
     uint8_t popStack();
     void pushStack(uint8_t data);
-
-    // addressing modes
-    uint16_t addrImmediate();
-    uint16_t addrZeroPage();
-    uint16_t addrZeroPageX();
-    uint16_t addrZeroPageY();
-    uint16_t addrRelative();
-    uint16_t addrAbsolute();
-    uint16_t addrAbsoluteX();
-    uint16_t addrAbsoluteY();
-    uint16_t addrIndirect();
-    uint16_t addrIndexIndirect();
-    uint16_t addrIndirectIndex();
 
     /* instructions */
     /* Option 1: make funcs of all instructions, and just match them
