@@ -2,86 +2,19 @@
 #include <cstdint>
 
 
-chip2A03::chip2A03() {
-  // ram from ram.hpp?
-  // i/o
-  // audio
-  // mappers?
-  // init registers, pc, sp
-  
-}
+chip2A03::chip2A03() {}
 
-chip2A03::~chip2A03() {
-  // delete?
-  // should be deep delete
-}
-
-// Memory and memory access
-uint8_t chip2A03::readCpu(uint16_t address) {
-  return bus(memAccessMode::read, address, 0);
-}
-
-void chip2A03::writeCpu(uint16_t address, uint8_t data) {
-  bus(memAccessMode::write, address, data);
-}
-
-uint8_t chip2A03::fetchInstruction() {
-  return readCpu(pc);
-}
-
-uint8_t chip2A03::bus(memAccessMode mode, uint16_t address, uint8_t data) {
-  uint8_t readData = 0;
-
-  if(address >= 0 && address < 0x2000) {
-    if(mode == memAccessMode::read) {
-      readData = ram.read(address);
-    } else {
-      ram.write(address, data);
-    }
-  } else if(address >= 0x2000 && address < 0x4000) {
-    if(mode == memAccessMode::read) {
-      readData = 0;   // ppu read
-    } else {
-      readData = 0;  // ppu write
-    }
-  } else if(address >= 0x4000 && address < 0x4001) {
-      if(mode == memAccessMode::read) {
-        readData = 0;   // controller read
-      } else {
-        readData = 0;   // controller write
-      }
-  } else if(address >= 0x6000 && address < 0xFFFF) {
-      if(mode == memAccessMode::read) {
-      readData = 0;   // rom read
-    } else {
-      readData = 0;   // rom write
-    }
-  }
-  return readData;
-};
-
-// stack
-uint8_t chip2A03::popStack() {
-  uint8_t data;
-  if(sp == 0xFF)
-    return 0;   // no items in stack NOTE is this ok??
-  else
-    data = ram.read(sp);
-  sp++;
-  return data;
-}
-
-void chip2A03::pushStack(uint8_t data) {
-  if(sp == 0x10)
-    return;   // stack full
-  else {
-    ram.write(sp, data);
-    sp--;
-  }
-}
-
+chip2A03::~chip2A03() {}
 
 ///////////////////////////////////////////////
+
+
+/* red TODO:
+ * Redo popstack, pushStack
+ * redo write and reads
+ * instructions start/rewrite
+ */
+
 
 //////* addressing modes *//////
 // instructionExec(instruction ins, addressingMode md) {
