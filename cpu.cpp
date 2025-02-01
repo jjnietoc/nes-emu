@@ -10,11 +10,21 @@ chip2A03::~chip2A03() {}
 
 
 /* red TODO:
- * Redo popstack, pushStack
- * redo write and reads
+ * green Redo popstack, pushStack
+ * green redo write and reads
  * instructions start/rewrite
  */
+uint8_t chip2A03::popStack() {
+  uint8_t temp;
+  SP = temp;
+  SP++;
+  return temp;
+}
 
+void chip2A03::pushStack(uint8_t data) {
+  data = SP;
+  SP--;
+}
 
 //////* addressing modes *//////
 // instructionExec(instruction ins, addressingMode md) {
@@ -25,7 +35,20 @@ chip2A03::~chip2A03() {}
 //   };
 // };
 
-//* instructions *//
+//* instructions */////////////////////
+// yellow NEW 
+// stack instructions
+void chip2A03::TSX() {
+  SP = X;
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+void chip2A03::TXS() {
+  X = SP;
+}
+
+
 // NOTE what is going on here
 void chip2A03::ADC(uint8_t data) {
   uint16_t sum = data + a + sflags[carry];
