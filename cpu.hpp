@@ -5,20 +5,16 @@
 #define CPU_HPP
 
 // WIP
-// TODO
-// 1. Finish CPU instructions
-// 2. Implement addressing modes
-// 3. Test
 
 class chip2A03 
 {
 private:
   /* registers */ 
-  nes::Register A;
-  nes::Register X;
-  nes::Register Y;
-  nes::Register SP;
-  nes::PC PC;
+  uint8_t A;
+  uint8_t X;
+  uint8_t Y;
+  uint8_t PC;
+  uint8_t SP;
   nes::Register SR;
 
   enum sFlags {
@@ -37,14 +33,18 @@ private:
   
   public:
  // memory methods
-  inline uint8_t read(const uint16_t address) {
+  uint8_t read(const uint16_t address) {
     return ram[address];
   };
 
-  inline void write(const uint16_t address, uint8_t data) {
+  void write(const uint16_t address, uint8_t data) {
     ram[address] = data;
   }
     // stack
+  // LIFO, 0x0100 - 0x01FF, grows down as values are pushed
+  // blue when value is pushed: stored in address pointed by sp
+  // then sp -1
+  // when value is pulled, sp+1
     uint8_t popStack();
     void pushStack(uint8_t data);
 
