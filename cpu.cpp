@@ -10,22 +10,26 @@ chip2A03::~chip2A03() {}
 
 
 /* red TODO:
- * green Redo popstack, pushStack
+* green Redo popstack, pushStack
  * green redo write and reads
  * instructions start/rewrite
  */
 uint8_t chip2A03::popStack() {
   uint8_t temp;
-  SP = temp;
+  ram[SP] = temp;
   SP++;
   return temp;
 }
 
 void chip2A03::pushStack(uint8_t data) {
-  data = SP;
+  // stack: 0x0100 - 0x01FF
+  if(ram[SP] < ram[0x0100] || ram[SP] > ram[0x01FF]) {
+    return;
+  } else {
+    data = ram[SP];
+  }
   SP--;
 }
-
 //////* addressing modes *//////
 // instructionExec(instruction ins, addressingMode md) {
 // if(addressingMode == whatever) {
@@ -47,6 +51,19 @@ void chip2A03::TSX() {
 void chip2A03::TXS() {
   X = SP;
 }
+
+void chip2A03::PHA() {
+  pushStack(A);
+}
+
+void chip2A03::PHP() {
+  nes::Register tempFlags;
+  SR = tempFlags;
+  nes::setBit(tempFlags, sFlags::brk);
+  nes::setBit(tempFlags, sFlags::na);
+  pushStack(uint8_t(tempFlags.to_ulong()));
+}
+
 
 
 // NOTE what is going on here
@@ -258,10 +275,6 @@ void chip2A03::ORA(uint8_t data) {
     sflags.set(negative, set);
 }
 
-void chip2A03::PHA() {
-  pushStack(a);
-}
-
 void chip2A03::PLA() {
   a = popStack();
   if(a == 0)
@@ -273,13 +286,6 @@ void chip2A03::PLA() {
 void chip2A03::PLP() {
   std::bitset<sizeof(uint8_t)>flags = popStack();
   sflags = flags;
-}
-
-void chip2A03::PHP() {
-  uint8_t sflagsCopy = (uint8_t)(sflags.to_ulong());
-  sflagsCopy |= (1 << 4);
-  sflagsCopy |= (1 << 5);
-  pushStack(sflagsCopy);
 }
 
 void chip2A03::RTS() {
