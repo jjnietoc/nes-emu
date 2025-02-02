@@ -64,7 +64,15 @@ void chip2A03::PHP() {
   pushStack(uint8_t(tempFlags.to_ulong()));
 }
 
+void chip2A03::PLA() {
+  A = popStack();
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
 
+void chip2A03::PLP() {
+  SR = popStack();
+}
 
 // NOTE what is going on here
 void chip2A03::ADC(uint8_t data) {
@@ -273,19 +281,6 @@ void chip2A03::ORA(uint8_t data) {
     sflags.set(zero, set);
   if(isASet)
     sflags.set(negative, set);
-}
-
-void chip2A03::PLA() {
-  a = popStack();
-  if(a == 0)
-    sflags.set(zero, set);
-  if(isASet)
-    sflags.set(negative, set);
-}
-
-void chip2A03::PLP() {
-  std::bitset<sizeof(uint8_t)>flags = popStack();
-  sflags = flags;
 }
 
 void chip2A03::RTS() {
