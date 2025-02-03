@@ -81,9 +81,9 @@ private:
     void INY();   // done  
     void JMP(uint16_t address);
     void JSR();
-    void LDA(uint8_t data);   // done 
-    void LDX(uint8_t data);   // done
-    void LDY(uint8_t data);   // done
+    void LDA(uint16_t address);   // done 
+    void LDX(uint16_t address);   // done
+    void LDY(uint16_t address);   // done
     void LSR();
     void NOP();   // done
     void ORA(uint8_t data);   // done
@@ -99,9 +99,9 @@ private:
     void SEC();   // done
     void SED();   // done
     void SEI();   // done
-    void STA();
-    void STX();
-    void STY();
+    void STA(uint16_t address);
+    void STX(uint16_t address);
+    void STY(uint16_t address);
     void TAX();   // done
     void TAY();   // done
     void TSX();   // done
