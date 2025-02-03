@@ -41,6 +41,30 @@ void chip2A03::pushStack(uint8_t data) {
 
 //* instructions */////////////////////
 // yellow NEW 
+// transfer instructions
+void chip2A03::LDA(uint16_t address) {
+  A = read(address);
+}
+
+void chip2A03::LDX(uint16_t address) {
+  X = read(address);
+}
+
+void chip2A03::LDY(uint16_t address) {
+  Y = read(address);
+}
+
+void chip2A03::STA(uint16_t address) {
+  write(address, A);
+}
+
+void chip2A03::STX(uint16_t address) {
+  write(address, X);
+}
+
+void chip2A03::STY(uint16_t address) {
+  write(address, Y);
+}
 // stack instructions
 void chip2A03::TSX() {
   SP = X;
