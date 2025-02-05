@@ -65,17 +65,44 @@ void chip2A03::STX(uint16_t address) {
 void chip2A03::STY(uint16_t address) {
   write(address, Y);
 }
-// stack instructions
+
+void chip2A03::TAX() {
+  X = A;
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+void chip2A03::TAY() {
+  Y = A;
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
 void chip2A03::TSX() {
-  SP = X;
+  ram[SP] = X;
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+void chip2A03::TXA() {
+  A = X;
   nes::setBit(SR, sFlags::negative);
   nes::setBit(SR, sFlags::zero);
 }
 
 void chip2A03::TXS() {
-  X = SP;
+  X = ram[SP];
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
 }
 
+void chip2A03::TYA() {
+  A = Y;
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+// stack instructions
 void chip2A03::PHA() {
   pushStack(A);
 }
@@ -97,6 +124,8 @@ void chip2A03::PLA() {
 void chip2A03::PLP() {
   SR = popStack();
 }
+
+// decremnents and increments
 
 // NOTE what is going on here
 void chip2A03::ADC(uint8_t data) {
