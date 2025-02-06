@@ -1,4 +1,5 @@
-#include <cstdint>
+ - 1;
+ write(address, temp);#include <cstdint>
 #include "tools.hpp"
 
 #ifndef CPU_HPP
@@ -72,11 +73,11 @@ private:
     void CMP(uint8_t data);   // done
     void CPX(uint8_t data);   // done
     void CPY(uint8_t data);   // done
-    void DEC(uint8_t data);   // done
+    void DEC(uint16_t address);   // done
     void DEX();   // done
     void DEY();   // done
     void EOR(uint8_t data);   // done
-    uint8_t INC(uint8_t data);    // done
+    void INC(uint16_t address);    // done
     void INX();   // done
     void INY();   // done  
     void JMP(uint16_t address);

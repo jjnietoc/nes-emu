@@ -126,6 +126,43 @@ void chip2A03::PLP() {
 }
 
 // decremnents and increments
+void chip2A03::DEC(uint16_t address) {
+  uint8_t temp = read(address) - 1;
+  write(address, temp);
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+void chip2A03::DEX() {
+  X = X--;
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+void chip2A03::DEY() {
+   Y = Y--;
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+void chip2A03::INC(uint16_t address) {
+  uint8_t temp = read(address) + 1;
+  write(address, temp);
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+void chip2A03::INX() {
+  X = X++;
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+void chip2A03::INY() {
+  Y = Y++;
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+} 
 
 // NOTE what is going on here
 void chip2A03::ADC(uint8_t data) {
