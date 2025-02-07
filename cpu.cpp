@@ -164,6 +164,28 @@ void chip2A03::INY() {
   nes::setBit(SR, sFlags::zero);
 } 
 
+// red todo: arithmetic instructions
+
+// logical operation instructions
+void chip2A03::AND(uint16_t address) {
+  A &= read(address);
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+
+void chip2A03::EOR(uint16_t address) {
+  A ^= read(address);
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
+void chip2A03::ORA(uint16_t address) {
+  A |= read(address);
+  nes::setBit(SR, sFlags::negative);
+  nes::setBit(SR, sFlags::zero);
+}
+
 // NOTE what is going on here
 void chip2A03::ADC(uint8_t data) {
   uint16_t sum = data + a + sflags[carry];

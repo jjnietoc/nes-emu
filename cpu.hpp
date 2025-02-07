@@ -54,7 +54,7 @@ private:
      * Option 2: store them in array like chip8, check architecture
      * Option 3: make struct and feed a decoder what it needs */
     void ADC(uint8_t data);   // done
-    void AND(uint8_t data);   // done
+    void AND(uint16_t address);   // done
     void ASL(uint8_t data);   // done
     void BCC();   // NOTE HOW DOES THIS WORK
     void BCS();
@@ -76,7 +76,7 @@ private:
     void DEC(uint16_t address);   // done
     void DEX();   // done
     void DEY();   // done
-    void EOR(uint8_t data);   // done
+    void EOR(uint16_t address);   // done
     void INC(uint16_t address);    // done
     void INX();   // done
     void INY();   // done  
@@ -87,7 +87,7 @@ private:
     void LDY(uint16_t address);   // done
     void LSR();
     void NOP();   // done
-    void ORA(uint8_t data);   // done
+    void ORA(uint16_t address);   // done
     void PHA();   // done
     void PHP();   // done
     void PLA();   // done
