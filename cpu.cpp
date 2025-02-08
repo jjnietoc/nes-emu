@@ -1,4 +1,5 @@
 #include "cpu.hpp"
+#include <algorithm>
 #include <cstdint>
 
 
@@ -10,26 +11,10 @@ chip2A03::~chip2A03() {}
 
 
 /* red TODO:
-* green Redo popstack, pushStack
- * green redo write and reads
+
  * instructions start/rewrite
  */
-uint8_t chip2A03::popStack() {
-  uint8_t temp;
-  ram[SP] = temp;
-  SP++;
-  return temp;
-}
 
-void chip2A03::pushStack(uint8_t data) {
-  // stack: 0x0100 - 0x01FF
-  if(ram[SP] < ram[0x0100] || ram[SP] > ram[0x01FF]) {
-    return;
-  } else {
-    data = ram[SP];
-  }
-  SP--;
-}
 //////* addressing modes *//////
 // instructionExec(instruction ins, addressingMode md) {
 // if(addressingMode == whatever) {
@@ -42,148 +27,141 @@ void chip2A03::pushStack(uint8_t data) {
 //* instructions */////////////////////
 // yellow NEW 
 // transfer instructions
+// need to implement cycles and instructions
 void chip2A03::LDA(uint16_t address) {
-  A = read(address);
+  A = ram[PC]; // red redo instructions this way
 }
 
 void chip2A03::LDX(uint16_t address) {
-  X = read(address);
+  X = ram[PC];
 }
 
 void chip2A03::LDY(uint16_t address) {
-  Y = read(address);
+  Y = ram[PC];
 }
 
 void chip2A03::STA(uint16_t address) {
-  write(address, A);
+  ram[PC] = A;
 }
 
 void chip2A03::STX(uint16_t address) {
-  write(address, X);
+  ram[PC] = X;
 }
 
 void chip2A03::STY(uint16_t address) {
-  write(address, Y);
+  ram[PC] = Y;
 }
 
 void chip2A03::TAX() {
   X = A;
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  flags[sFlags::negative] = flags[sFlags::zero] = X;
 }
 
 void chip2A03::TAY() {
   Y = A;
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  flags[sFlags::negative] = flags[sFlags::zero] = Y;
 }
 
 void chip2A03::TSX() {
   ram[SP] = X;
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  flags[sFlags::negative] = flags[sFlags::zero] = X;
 }
 
 void chip2A03::TXA() {
   A = X;
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  flags[sFlags::negative] = flags[sFlags::zero] = A;
 }
 
 void chip2A03::TXS() {
   X = ram[SP];
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  flags[sFlags::negative] = flags[sFlags::zero] = X;
 }
 
 void chip2A03::TYA() {
   A = Y;
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  flags[sFlags::negative] = flags[sFlags::zero] = A;
 }
 
 // stack instructions
 void chip2A03::PHA() {
-  pushStack(A);
+  stack.push(A);
 }
 
 void chip2A03::PHP() {
-  nes::Register tempFlags;
-  SR = tempFlags;
-  nes::setBit(tempFlags, sFlags::brk);
-  nes::setBit(tempFlags, sFlags::na);
-  pushStack(uint8_t(tempFlags.to_ulong()));
+  uint8_t tempFlags[8];
+  std::copy(flags, flags + 1, tempFlags);
+  flags[sFlags::brk] = flags[sFlags::na] = 1;
+  for(int i; i < sizeof(tempFlags); i++) {
+    stack.push(tempFlags[i]);
+  };
 }
 
 void chip2A03::PLA() {
-  A = popStack();
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  A = stack.top();
+  flags[sFlags::brk] = flags[sFlags::na] = A;
 }
 
 void chip2A03::PLP() {
-  SR = popStack();
+  // purple no error, but does this work?
+  nes::Register temp = stack.top();
+  for(int i = 0; i < sizeof(temp); i++) {
+    flags[i] = temp[i];
+  }
 }
 
 // decremnents and increments
 void chip2A03::DEC(uint16_t address) {
-  uint8_t temp = read(address) - 1;
-  write(address, temp);
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  PC--; 
+  flags[sFlags::zero] = flags[sFlags::negative] = PC; // purple check
 }
 
 void chip2A03::DEX() {
-  X = X--;
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  X--;
+  flags[sFlags::zero] = flags[sFlags::negative] = X;
 }
 
 void chip2A03::DEY() {
-   Y = Y--;
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+   Y--;
+  flags[sFlags::zero] = flags[sFlags::negative] = X;
 }
 
 void chip2A03::INC(uint16_t address) {
-  uint8_t temp = read(address) + 1;
-  write(address, temp);
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  PC++;
+  flags[sFlags::zero] = flags[sFlags::negative] = PC;
 }
 
 void chip2A03::INX() {
-  X = X++;
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  X++;
+  flags[sFlags::zero] = flags[sFlags::negative] = X;
 }
 
 void chip2A03::INY() {
-  Y = Y++;
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  Y++;
+  flags[sFlags::zero] = flags[sFlags::negative] = Y;
 } 
 
 // red todo: arithmetic instructions
 
 // logical operation instructions
 void chip2A03::AND(uint16_t address) {
-  A &= read(address);
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  A &= ram[PC];
+  flags[sFlags::zero] = flags[sFlags::negative] = A;
 }
 
 
 void chip2A03::EOR(uint16_t address) {
-  A ^= read(address);
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  A ^= ram[PC];
+  flags[sFlags::zero] = flags[sFlags::negative] = A;
 }
 
 void chip2A03::ORA(uint16_t address) {
-  A |= read(address);
-  nes::setBit(SR, sFlags::negative);
-  nes::setBit(SR, sFlags::zero);
+  A |= ram[PC];
+  flags[sFlags::zero] = flags[sFlags::negative] = A;
+}
+
+// shift operation instructions
+void chip2A03::ASL() {
+
 }
 
 // NOTE what is going on here
