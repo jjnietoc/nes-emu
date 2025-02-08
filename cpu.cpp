@@ -28,27 +28,27 @@ chip2A03::~chip2A03() {}
 // yellow NEW 
 // transfer instructions
 // need to implement cycles and instructions
-void chip2A03::LDA(uint16_t address) {
+void chip2A03::LDA() {
   A = ram[PC]; // red redo instructions this way
 }
 
-void chip2A03::LDX(uint16_t address) {
+void chip2A03::LDX() {
   X = ram[PC];
 }
 
-void chip2A03::LDY(uint16_t address) {
+void chip2A03::LDY() {
   Y = ram[PC];
 }
 
-void chip2A03::STA(uint16_t address) {
+void chip2A03::STA() {
   ram[PC] = A;
 }
 
-void chip2A03::STX(uint16_t address) {
+void chip2A03::STX() {
   ram[PC] = X;
 }
 
-void chip2A03::STY(uint16_t address) {
+void chip2A03::STY() {
   ram[PC] = Y;
 }
 
@@ -110,7 +110,7 @@ void chip2A03::PLP() {
 }
 
 // decremnents and increments
-void chip2A03::DEC(uint16_t address) {
+void chip2A03::DEC() {
   PC--; 
   flags[sFlags::zero] = flags[sFlags::negative] = PC; // purple check
 }
@@ -125,7 +125,7 @@ void chip2A03::DEY() {
   flags[sFlags::zero] = flags[sFlags::negative] = X;
 }
 
-void chip2A03::INC(uint16_t address) {
+void chip2A03::INC() {
   PC++;
   flags[sFlags::zero] = flags[sFlags::negative] = PC;
 }
@@ -143,18 +143,18 @@ void chip2A03::INY() {
 // red todo: arithmetic instructions
 
 // logical operation instructions
-void chip2A03::AND(uint16_t address) {
+void chip2A03::AND() {
   A &= ram[PC];
   flags[sFlags::zero] = flags[sFlags::negative] = A;
 }
 
 
-void chip2A03::EOR(uint16_t address) {
+void chip2A03::EOR() {
   A ^= ram[PC];
   flags[sFlags::zero] = flags[sFlags::negative] = A;
 }
 
-void chip2A03::ORA(uint16_t address) {
+void chip2A03::ORA() {
   A |= ram[PC];
   flags[sFlags::zero] = flags[sFlags::negative] = A;
 }
@@ -333,7 +333,7 @@ void chip2A03::INY() {
     sflags.set(negative, set);
 }
 
-void chip2A03::JMP(uint16_t address) {
+void chip2A03::JMP() {
   pc = address;
 }
 

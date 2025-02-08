@@ -1,5 +1,4 @@
- - 1;
- write(address, temp);#include <cstdint>
+#include <cstdint>
 #include "tools.hpp"
 
 #ifndef CPU_HPP
@@ -16,7 +15,8 @@ private:
   uint8_t Y;
   uint8_t PC;
   uint8_t SP;
-  nes::Register SR;
+
+  uint8_t flags[8]; 
 
   enum sFlags {
     carry = 0,
@@ -28,17 +28,19 @@ private:
     overflow = 6,
     negative = 7
   }; // blue note: access them with SR[sFlags::carry]
-  
+   
+
     // memory and memory access
   nes::Memory ram;
+  nes::stack stack;
   
   public:
  // memory methods
-  uint8_t read(const uint16_t address) {
+  inline uint8_t read(const uint16_t address) {
     return ram[address];
   };
 
-  void write(const uint16_t address, uint8_t data) {
+  inline void write(const uint16_t address, uint8_t data) {
     ram[address] = data;
   }
     // stack
@@ -46,6 +48,8 @@ private:
   // blue when value is pushed: stored in address pointed by sp
   // then sp -1
   // when value is pulled, sp+1
+  // red deprecated soon
+  // blue consider creating whole memory for better control
     uint8_t popStack();
     void pushStack(uint8_t data);
 
@@ -54,8 +58,8 @@ private:
      * Option 2: store them in array like chip8, check architecture
      * Option 3: make struct and feed a decoder what it needs */
     void ADC(uint8_t data);   // done
-    void AND(uint16_t address);   // done
-    void ASL(uint8_t data);   // done
+    void AND();   // done
+    void ASL();   // done
     void BCC();   // NOTE HOW DOES THIS WORK
     void BCS();
     void BEQ();
@@ -73,21 +77,21 @@ private:
     void CMP(uint8_t data);   // done
     void CPX(uint8_t data);   // done
     void CPY(uint8_t data);   // done
-    void DEC(uint16_t address);   // done
+    void DEC();   // done
     void DEX();   // done
     void DEY();   // done
-    void EOR(uint16_t address);   // done
-    void INC(uint16_t address);    // done
+    void EOR();   // done
+    void INC();    // done
     void INX();   // done
     void INY();   // done  
-    void JMP(uint16_t address);
+    void JMP();
     void JSR();
-    void LDA(uint16_t address);   // done 
-    void LDX(uint16_t address);   // done
-    void LDY(uint16_t address);   // done
+    void LDA();   // done 
+    void LDX();   // done
+    void LDY();   // done
     void LSR();
     void NOP();   // done
-    void ORA(uint16_t address);   // done
+    void ORA();   // done
     void PHA();   // done
     void PHP();   // done
     void PLA();   // done
@@ -100,9 +104,9 @@ private:
     void SEC();   // done
     void SED();   // done
     void SEI();   // done
-    void STA(uint16_t address);
-    void STX(uint16_t address);
-    void STY(uint16_t address);
+    void STA();
+    void STX();
+    void STY();
     void TAX();   // done
     void TAY();   // done
     void TSX();   // done
