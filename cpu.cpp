@@ -178,6 +178,26 @@ void chip2A03::CLV() {
   flags[sFlags::overflow] = 0;
 }
 
+void chip2A03::SEC() {
+  flags[sFlags::carry] = 1;
+}
+
+void chip2A03::SED() {
+  flags[sFlags::decimal] = 1;
+}
+
+void chip2A03::SEI() {
+  flags[sFlags::interrupt] = 1;
+}
+// comparison instructions
+void chip2A03::CMP() {
+  auto diff = A - ram[PC];
+  //  red how to set flags[sFlags::carry] 
+  flags[sFlags::zero] = flags[sFlags::negative] = diff;
+}
+
+void chip2A03
+
 
 // NOTE what is going on here
 void chip2A03::ADC(uint8_t data) {
