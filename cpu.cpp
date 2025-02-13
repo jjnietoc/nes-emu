@@ -29,7 +29,7 @@ chip2A03::~chip2A03() {}
 // transfer instructions
 // need to implement cycles and instructions
 void chip2A03::LDA() {
-  A = ram[PC]; // red redo instructions this way
+  A = ram[PC]; 
 }
 
 void chip2A03::LDX() {
@@ -159,10 +159,25 @@ void chip2A03::ORA() {
   flags[sFlags::zero] = flags[sFlags::negative] = A;
 }
 
-// shift operation instructions
-void chip2A03::ASL() {
+// shif operation instructions
 
+// flag instructions 
+void chip2A03::CLC() {
+  flags[sFlags::carry] = 0;
 }
+
+void chip2A03::CLD() {
+  flags[sFlags::decimal] = 0;
+}
+
+void chip2A03::CLI() {
+  flags[sFlags::interrupt] = 0;
+}
+
+void chip2A03::CLV() {
+  flags[sFlags::overflow] = 0;
+}
+
 
 // NOTE what is going on here
 void chip2A03::ADC(uint8_t data) {
