@@ -74,9 +74,9 @@ private:
     void CLD();   // done
     void CLI();   // done
     void CLV();   // done
-    void CMP(uint8_t data);   // done
-    void CPX(uint8_t data);   // done
-    void CPY(uint8_t data);   // done
+    void CMP();   // done
+    void CPX();   // done
+    void CPY();   // done
     void DEC();   // done
     void DEX();   // done
     void DEY();   // done

@@ -196,8 +196,17 @@ void chip2A03::CMP() {
   flags[sFlags::zero] = flags[sFlags::negative] = diff;
 }
 
-void chip2A03
+void chip2A03::CPX() {
+  auto diff = X - ram[PC];
+  // red set carry missing
+  flags[sFlags::zero] = flags[sFlags::negative] = diff;
+}
 
+void chip2A03::CPY() {
+  auto diff = Y - ram[PC];
+  // red set carry missing
+  flags[sFlags::zero] = flags[sFlags::negative] = diff;
+}
 
 // NOTE what is going on here
 void chip2A03::ADC(uint8_t data) {
