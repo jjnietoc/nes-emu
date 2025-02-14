@@ -204,8 +204,11 @@ void chip2A03::CPX() {
 
 void chip2A03::CPY() {
   auto diff = Y - ram[PC];
-  // red set carry missing
   flags[sFlags::zero] = flags[sFlags::negative] = diff;
+}
+
+void chip2A03::BRK() {
+  return;
 }
 
 // NOTE what is going on here
