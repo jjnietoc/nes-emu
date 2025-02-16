@@ -159,7 +159,7 @@ void chip2A03::ORA() {
   flags[sFlags::zero] = flags[sFlags::negative] = A;
 }
 
-// shif operation instructions
+// red shift operation instructions
 
 // flag instructions 
 void chip2A03::CLC() {
@@ -209,6 +209,13 @@ void chip2A03::CPY() {
 
 void chip2A03::BRK() {
   return;
+}
+
+void chip2A03::BIT() {
+  auto operand = ram[PC];
+  flags[sFlags::zero] = !(operand & A);
+  flags[sFlags::overflow] = (operand >> 6) & 1;
+  flags[sFlags::negative] = (operand >> 7) & 1;
 }
 
 // NOTE what is going on here

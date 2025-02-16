@@ -63,7 +63,7 @@ private:
     void BCC();   // NOTE HOW DOES THIS WORK
     void BCS();
     void BEQ();
-    void BIT(uint8_t data);   // done
+    void BIT();   // done
     void BMI();
     void BNE();
     void BPL();
