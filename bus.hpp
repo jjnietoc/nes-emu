@@ -8,9 +8,10 @@ namespace nes {
 
 class Bus {
 private:
-  std::array <uint8_t, 0xFFFF> ram;  
+  std::array <uint8_t, 0xFFFF> memory;  
 
 public:
+  Bus();
   uint16_t read(uint16_t const address) const;
   void write(const uint16_t address, const uint8_t data);
   };
