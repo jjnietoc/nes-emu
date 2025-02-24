@@ -27,12 +27,12 @@ private:
     na = 5,
     overflow = 6,
     negative = 7
-  }; // blue note: access them with SR[sFlags::carry]
-   
+  };   
 
     // memory and memory access
   nes::Memory ram;
-  nes::stack stack;
+  nes::stack stack; 
+
   
   public:
  // memory methods
@@ -43,76 +43,33 @@ private:
   inline void write(const uint16_t address, uint8_t data) {
     ram[address] = data;
   }
-    // stack
-  // LIFO, 0x0100 - 0x01FF, grows down as values are pushed
-  // blue when value is pushed: stored in address pointed by sp
-  // then sp -1
-  // when value is pulled, sp+1
-  // red deprecated soon
-  // blue consider creating whole memory for better control
-    uint8_t popStack();
-    void pushStack(uint8_t data);
+    // popStack
+  uint8_t popStack();
+  void pushStack(uint8_t data);
 
-    /* instructions */
-    /* Option 1: make funcs of all instructions, and just match them
-     * Option 2: store them in array like chip8, check architecture
-     * Option 3: make struct and feed a decoder what it needs */
-    void ADC(uint8_t data);   // done
-    void AND();   // done
-    void ASL();   // done
-    void BCC();   // NOTE HOW DOES THIS WORK
-    void BCS();
-    void BEQ();
-    void BIT();   // done
-    void BMI();
-    void BNE();
-    void BPL();
-    void BRK();   // wip
-    void BVC();    
-    void BVS();
-    void CLC();   // done
-    void CLD();   // done
-    void CLI();   // done
-    void CLV();   // done
-    void CMP();   // done
-    void CPX();   // done
-    void CPY();   // done
-    void DEC();   // done
-    void DEX();   // done
-    void DEY();   // done
-    void EOR();   // done
-    void INC();    // done
-    void INX();   // done
-    void INY();   // done  
-    void JMP();
-    void JSR();
-    void LDA();   // done 
-    void LDX();   // done
-    void LDY();   // done
-    void LSR();
-    void NOP();   // done
-    void ORA();   // done
-    void PHA();   // done
-    void PHP();   // done
-    void PLA();   // done
-    void PLP();   // done
-    void ROL();
-    void ROR();
-    void RTI();
-    void RTS();
-    void SBC();
-    void SEC();   // done
-    void SED();   // done
-    void SEI();   // done
-    void STA();
-    void STX();
-    void STY();
-    void TAX();   // done
-    void TAY();   // done
-    void TSX();   // done
-    void TXA();   // done
-    void TXS();   // done
-    void TYA();   // done
+  // Instructions
+  uint8_t ADC(); uint8_t AND(); uint8_t ASL(); uint8_t BCC();
+  uint8_t BCS(); uint8_t BEQ(); uint8_t BIT(); uint8_t BMI();
+  uint8_t BNE(); uint8_t BPL(); uint8_t BRK(); uint8_t BVC(); 
+  uint8_t BVS(); uint8_t CLC(); uint8_t CLD(); uint8_t CLI();
+  uint8_t CLV(); uint8_t CMP(); uint8_t CPX(); uint8_t CPY();
+  uint8_t DEC(); uint8_t DEX(); uint8_t DEY(); uint8_t EOR();
+  uint8_t INC(); uint8_t INX(); uint8_t INY(); uint8_t JMP();
+  uint8_t JSR(); uint8_t LDA(); uint8_t LDX(); uint8_t LDY();
+  uint8_t LSR(); uint8_t NOP(); uint8_t ORA(); uint8_t PHA();
+  uint8_t PHP(); uint8_t PLA(); uint8_t PLP(); uint8_t ROL();
+  uint8_t ROR(); uint8_t RTI(); uint8_t RTS(); uint8_t SBC();
+  uint8_t SEC(); uint8_t SED(); uint8_t SEI(); uint8_t STA();
+  uint8_t STX(); uint8_t STY(); uint8_t TAX(); uint8_t TAY();
+  uint8_t TSX(); uint8_t TXA(); uint8_t TXS(); uint8_t TYA();
+ 
+  // Addressing modes
+  uint8_t IMP();	uint8_t IMM();	
+	uint8_t ZP0();	uint8_t ZPX();	
+	uint8_t ZPY();	uint8_t REL();
+	uint8_t ABS();	uint8_t ABX();	
+	uint8_t ABY();	uint8_t IND();	
+	uint8_t IZX();	uint8_t IZY();
 
   public:
     // both of these need work
