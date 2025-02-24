@@ -2,18 +2,13 @@
 #include <algorithm>
 #include <cstdint>
 
-
+// Constuctor:
 chip2A03::chip2A03() {}
 
+// Destructor:
 chip2A03::~chip2A03() {}
 
-///////////////////////////////////////////////
-
-
-// red TODO:
-// yellow NEW 
-// red: check all instructions that use pc as memory access
-// pc checks instructions not memory
+// Intructions:
 uint8_t chip2A03::LDA() { 
   A = ram[PC];
   return 0;

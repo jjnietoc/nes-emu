@@ -47,7 +47,6 @@ private:
   uint8_t popStack();
   void pushStack(uint8_t data);
 
-  // Instructions
   uint8_t ADC(); uint8_t AND(); uint8_t ASL(); uint8_t BCC();
   uint8_t BCS(); uint8_t BEQ(); uint8_t BIT(); uint8_t BMI();
   uint8_t BNE(); uint8_t BPL(); uint8_t BRK(); uint8_t BVC(); 
