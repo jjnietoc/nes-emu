@@ -1,4 +1,5 @@
 #include <bitset>
+#include <array>
 #include <stack>
 
 #ifndef TOOLS_HPP
@@ -7,8 +8,7 @@
 namespace nes {
   // registers 
   typedef std::bitset<8>Register;
-  typedef std::bitset<0x10000>Memory;
-
+  typedef std::array<uint8_t, 0xFFFF> memory;
   typedef std::stack<uint8_t> stack;
   
   inline constexpr bool isBitSet(const Register reg, const int pos) {
