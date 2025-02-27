@@ -8,9 +8,15 @@ chip2A03::chip2A03() {}
 // Destructor:
 chip2A03::~chip2A03() {}
 
+// Access memory according to Addressing Mode
+uint8_t chip2A03::getMemData() {
+  return memData;
+}
+
 // Intructions:
 uint8_t chip2A03::LDA() { 
-  A = ram[PC];
+  getMemData();
+  A = memData;
   return 0;
 } // red
 

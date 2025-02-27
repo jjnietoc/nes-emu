@@ -16,6 +16,8 @@ private:
   uint8_t PC;
   uint8_t SP;
 
+  nes::Register B;
+  
   uint8_t flags[8]; 
 
   enum sFlags {
@@ -27,25 +29,22 @@ private:
     na = 5,
     overflow = 6,
     negative = 7
-  };   
+  };
 
     // memory and memory access
-  nes::Memory ram;
+  nes::memory ram;
   nes::stack stack; 
+
+  uint8_t memData;
+  uint16_t memAddr;
+  uint16_t memBrch;
 
   
   public:
- // memory methods
-  inline uint8_t read(const uint16_t address) {
-    return ram[address];
-  };
-
-  inline void write(const uint16_t address, uint8_t data) {
-    ram[address] = data;
-  }
-    // popStack
   uint8_t popStack();
   void pushStack(uint8_t data);
+
+  uint8_t getMemData();
 
   uint8_t ADC(); uint8_t AND(); uint8_t ASL(); uint8_t BCC();
   uint8_t BCS(); uint8_t BEQ(); uint8_t BIT(); uint8_t BMI();
