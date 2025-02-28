@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <vector>
 #include "tools.hpp"
 
 #ifndef CPU_HPP
@@ -45,6 +46,15 @@ private:
   void pushStack(uint8_t data);
 
   uint8_t getMemData();
+ 
+  struct Instruction {
+    std::string name;
+    uint8_t (chip2A03::*operation)(void) = nullptr;
+    uint8_t (chip2A03::*addressmode)(void) = nullptr;
+    uint8_t cycles = 0;
+  };
+
+  std::vector<Instruction>lookupMatrix;
 
   uint8_t ADC(); uint8_t AND(); uint8_t ASL(); uint8_t BCC();
   uint8_t BCS(); uint8_t BEQ(); uint8_t BIT(); uint8_t BMI();
