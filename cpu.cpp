@@ -8,8 +8,19 @@ chip2A03::chip2A03() {}
 // Destructor:
 chip2A03::~chip2A03() {}
 
+// Access memory
+uint8_t chip2A03::read(uint16_t address) {
+  return memory[address];
+}
+
+void chip2A03::write(uint16_t address, uint8_t data) {
+  memory[address] = data;
+}
+
 // Access memory according to Addressing Mode
 uint8_t chip2A03::getMemData() {
+  if(!(lookupMatrix[opcode].addressmode == &chip2A03::IMP))
+    memData = read(memAddr);
   return memData;
 }
 
@@ -21,27 +32,27 @@ uint8_t chip2A03::LDA() {
 } // red
 
 uint8_t chip2A03::LDX() {
-  X = ram[PC];
+  X = memory[PC];
   return 0;
 } // red
 
 uint8_t chip2A03::LDY() {
-  Y = ram[PC];
+  Y = memory[PC];
   return 0;
 } // red
 
 uint8_t chip2A03::STA() {
-  ram[PC] = A;
+  memory[PC] = A;
   return 0;
 } // red
 
 uint8_t chip2A03::STX() {
-  ram[PC] = X;
+  memory[PC] = X;
   return 0;
 } // red
 
 uint8_t chip2A03::STY() {
-  ram[PC] = Y;
+  memory[PC] = Y;
   return 0;
 } // red
 
@@ -58,7 +69,7 @@ uint8_t chip2A03::TAY() {
 }
 
 uint8_t chip2A03::TSX() {
-  ram[SP] = X;
+  memory[SP] = X;
   flags[sFlags::negative] = flags[sFlags::zero] = X;
   return 0;
 } // red
@@ -70,7 +81,7 @@ uint8_t chip2A03::TXA() {
 }
 
 uint8_t chip2A03::TXS() {
-  X = ram[SP];
+  X = memory[SP];
   flags[sFlags::negative] = flags[sFlags::zero] = X;
   return 0;
 } // red
@@ -153,20 +164,20 @@ uint8_t chip2A03::INY() {
 
 // logical operation instructions
 uint8_t chip2A03::AND() {
-  A &= ram[PC];
+  A &= memory[PC];
   flags[sFlags::zero] = flags[sFlags::negative] = A;
   return 0;
 } // red
 
 
 uint8_t chip2A03::EOR() {
-  A ^= ram[PC];
+  A ^= memory[PC];
   flags[sFlags::zero] = flags[sFlags::negative] = A;
   return 0;
 } // red
 
 uint8_t chip2A03::ORA() {
-  A |= ram[PC];
+  A |= memory[PC];
   flags[sFlags::zero] = flags[sFlags::negative] = A;
   return 0;
 } // red
@@ -210,21 +221,21 @@ uint8_t chip2A03::SEI() {
 }
 // comparison instructions
 uint8_t chip2A03::CMP() {
-  auto diff = A - ram[PC];
+  auto diff = A - memory[PC];
   //  red how to set flags[sFlags::carry] 
   flags[sFlags::zero] = flags[sFlags::negative] = diff;
   return 0;
 } // red
 
 uint8_t chip2A03::CPX() {
-  auto diff = X - ram[PC];
+  auto diff = X - memory[PC];
   // red set carry missing
   flags[sFlags::zero] = flags[sFlags::negative] = diff;
   return 0;
 } // red
 
 uint8_t chip2A03::CPY() {
-  auto diff = Y - ram[PC];
+  auto diff = Y - memory[PC];
   flags[sFlags::zero] = flags[sFlags::negative] = diff;
   return 0;
 } // red
@@ -234,7 +245,7 @@ uint8_t chip2A03::BRK() {
 }
 
 uint8_t chip2A03::BIT() {
-  auto operand = ram[PC];
+  auto operand = memory[PC];
   flags[sFlags::zero] = !(operand & A);
   flags[sFlags::overflow] = (operand >> 6) & 1;
   flags[sFlags::negative] = (operand >> 7) & 1;

@@ -33,20 +33,15 @@ private:
   };
 
     // memory and memory access
-  nes::memory ram;
-  nes::stack stack; 
+  nes::memory memory;
+  nes::stack stack;
 
   uint8_t memData;
   uint16_t memAddr;
   uint16_t memBrch;
+  uint8_t opcode;
+  // cycles and clock missing, not needed at this point
 
-  
-  public:
-  uint8_t popStack();
-  void pushStack(uint8_t data);
-
-  uint8_t getMemData();
- 
   struct Instruction {
     std::string name;
     uint8_t (chip2A03::*operation)(void) = nullptr;
@@ -55,6 +50,16 @@ private:
   };
 
   std::vector<Instruction>lookupMatrix;
+  
+public:
+  uint8_t read(uint16_t address);
+  void write(uint16_t address, uint8_t data);
+  
+  uint8_t popStack();
+  void pushStack(uint8_t data);
+
+  uint8_t getMemData();
+
 
   uint8_t ADC(); uint8_t AND(); uint8_t ASL(); uint8_t BCC();
   uint8_t BCS(); uint8_t BEQ(); uint8_t BIT(); uint8_t BMI();
