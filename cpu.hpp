@@ -60,6 +60,8 @@ public:
 
   uint8_t getMemData();
 
+  void setZero(uint8_t reg);
+  void setNeg(uint8_t reg);
 
   uint8_t ADC(); uint8_t AND(); uint8_t ASL(); uint8_t BCC();
   uint8_t BCS(); uint8_t BEQ(); uint8_t BIT(); uint8_t BMI();

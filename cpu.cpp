@@ -1,7 +1,7 @@
 #include "cpu.hpp"
 #include <algorithm>
 #include <cstdint>
-
+  
 // Constuctor:
 chip2A03::chip2A03() {}
 
@@ -17,6 +17,16 @@ void chip2A03::write(uint16_t address, uint8_t data) {
   memory[address] = data;
 }
 
+void chip2A03::setZero(uint8_t reg) {
+  if(reg == 0) {
+    flags[sFlags::zero] = 0;
+  } else return;
+}
+
+void chip2A03::setNeg(uint8_t reg) {
+  flags[sFlags::negative] = (reg >> 7) & 1;  
+}
+
 // Access memory according to Addressing Mode
 uint8_t chip2A03::getMemData() {
   if(!(lookupMatrix[opcode].addressmode == &chip2A03::IMP))
@@ -27,7 +37,8 @@ uint8_t chip2A03::getMemData() {
 // Intructions:
 uint8_t chip2A03::LDA() { 
   getMemData();
-  A = memData;
+  A = memData; 
+
   return 0;
 } // red
 
