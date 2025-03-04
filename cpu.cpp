@@ -38,65 +38,76 @@ uint8_t chip2A03::getMemData() {
 uint8_t chip2A03::LDA() { 
   getMemData();
   A = memData; 
-
+  setZero(A);
+  setNeg(A);
   return 0;
-} // red
+} 
 
 uint8_t chip2A03::LDX() {
-  X = memory[PC];
+  getMemData();
+  X = memData;
+  setZero(X);
+  setNeg(X);
   return 0;
-} // red
+} 
 
 uint8_t chip2A03::LDY() {
-  Y = memory[PC];
+  getMemData();
+  Y = memData;
+  setZero(Y);
+  setNeg(Y);
   return 0;
-} // red
+} 
 
 uint8_t chip2A03::STA() {
-  memory[PC] = A;
+  memData = A;
   return 0;
-} // red
+}
 
 uint8_t chip2A03::STX() {
-  memory[PC] = X;
+  memData = X;
   return 0;
-} // red
+}
 
 uint8_t chip2A03::STY() {
-  memory[PC] = Y;
+  memData = Y;
   return 0;
-} // red
+}
 
 uint8_t chip2A03::TAX() {
   X = A;
-  flags[sFlags::negative] = flags[sFlags::zero] = X;
+  setZero(X);
+  setNeg(X);
   return 0;
 }
 
 uint8_t chip2A03::TAY() {
   Y = A;
-  flags[sFlags::negative] = flags[sFlags::zero] = Y;
+  setZero(Y);
+  setNeg(Y);
   return 0;
 }
 
 uint8_t chip2A03::TSX() {
-  memory[SP] = X;
-  flags[sFlags::negative] = flags[sFlags::zero] = X;
+  X = stack.top();
+  setZero(X);
+  setNeg(X);
   return 0;
-} // red
+} 
 
 uint8_t chip2A03::TXA() {
   A = X;
-  flags[sFlags::negative] = flags[sFlags::zero] = A;
+  setZero(A);
+  setNeg(A);
   return 0;
 }
 
 uint8_t chip2A03::TXS() {
-  X = memory[SP];
-  flags[sFlags::negative] = flags[sFlags::zero] = X;
+  stack.top() = X;
   return 0;
-} // red
+}
 
+// orange continue from here
 uint8_t chip2A03::TYA() {
   A = Y;
   flags[sFlags::negative] = flags[sFlags::zero] = A;
