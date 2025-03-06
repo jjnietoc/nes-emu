@@ -168,20 +168,23 @@ uint8_t chip2A03::DEY() {
 }
 
 uint8_t chip2A03::INC() {
-  PC++;
-  flags[sFlags::zero] = flags[sFlags::negative] = PC;
+  memData = memData + 1;
+  setZero(memData);
+  setNeg(memData);
   return 0;
 }
 
 uint8_t chip2A03::INX() {
   X++;
-  flags[sFlags::zero] = flags[sFlags::negative] = X;
+  setZero(X);
+  setNeg(X);
   return 0;
 }
 
 uint8_t chip2A03::INY() {
   Y++;
-  flags[sFlags::zero] = flags[sFlags::negative] = Y;
+  setZero(Y);
+  setNeg(Y);
   return 0;
 } 
 
