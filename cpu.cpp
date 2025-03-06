@@ -107,10 +107,10 @@ uint8_t chip2A03::TXS() {
   return 0;
 }
 
-// orange continue from here
 uint8_t chip2A03::TYA() {
   A = Y;
-  flags[sFlags::negative] = flags[sFlags::zero] = A;
+  setZero(A);
+  setNeg(A);
   return 0;
 } 
 
@@ -132,12 +132,12 @@ uint8_t chip2A03::PHP() {
 
 uint8_t chip2A03::PLA() {
   A = stack.top();
-  flags[sFlags::brk] = flags[sFlags::na] = A;
+  setZero(A);
+  setNeg(A);
   return 0;
 }
 
 uint8_t chip2A03::PLP() {
-  // purple no error, but does this work?
   nes::Register temp = stack.top();
   for(int i = 0; i < sizeof(temp); i++) {
     flags[i] = temp[i];
@@ -147,20 +147,23 @@ uint8_t chip2A03::PLP() {
 
 // decremnents and increments
 uint8_t chip2A03::DEC() {
-  PC--; 
-  flags[sFlags::zero] = flags[sFlags::negative] = PC; // purple check
+  memData = memData - 1; 
+  setZero(memData);
+  setNeg(memData);
   return 0;
 }
 
 uint8_t chip2A03::DEX() {
   X--;
-  flags[sFlags::zero] = flags[sFlags::negative] = X;
+  setZero(X);
+  setNeg(X);
   return 0;
 }
 
 uint8_t chip2A03::DEY() {
    Y--;
-  flags[sFlags::zero] = flags[sFlags::negative] = X;
+  setZero(Y);
+  setNeg(Y);
   return 0;
 }
 
