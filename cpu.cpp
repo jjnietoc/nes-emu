@@ -18,9 +18,7 @@ void chip2A03::write(uint16_t address, uint8_t data) {
 }
 
 void chip2A03::setZero(uint8_t reg) {
-  if(reg == 0) {
-    flags[sFlags::zero] = 0;
-  } else return;
+    flags[sFlags::zero] = reg == 0;
 }
 
 void chip2A03::setNeg(uint8_t reg) {
@@ -60,16 +58,19 @@ uint8_t chip2A03::LDY() {
 } 
 
 uint8_t chip2A03::STA() {
+  getMemData();
   memData = A;
   return 0;
 }
 
 uint8_t chip2A03::STX() {
+  getMemData();
   memData = X;
   return 0;
 }
 
 uint8_t chip2A03::STY() {
+  getMemData();
   memData = Y;
   return 0;
 }
@@ -147,6 +148,7 @@ uint8_t chip2A03::PLP() {
 
 // decremnents and increments
 uint8_t chip2A03::DEC() {
+  getMemData();
   memData = memData - 1; 
   setZero(memData);
   setNeg(memData);
@@ -167,7 +169,8 @@ uint8_t chip2A03::DEY() {
   return 0;
 }
 
-uint8_t chip2A03::INC() {
+uint8_t chip2A03::INC() { 
+  getMemData();
   memData = memData + 1;
   setZero(memData);
   setNeg(memData);
@@ -192,23 +195,29 @@ uint8_t chip2A03::INY() {
 
 // logical operation instructions
 uint8_t chip2A03::AND() {
-  A &= memory[PC];
-  flags[sFlags::zero] = flags[sFlags::negative] = A;
+  getMemData();
+  A &= memData;
+  setZero(A);
+  setNeg(A);
   return 0;
-} // red
+}
 
 
 uint8_t chip2A03::EOR() {
-  A ^= memory[PC];
-  flags[sFlags::zero] = flags[sFlags::negative] = A;
+  getMemData();
+  A ^= memData;
+  setZero(A);
+  setNeg(A);
   return 0;
 } // red
 
 uint8_t chip2A03::ORA() {
-  A |= memory[PC];
-  flags[sFlags::zero] = flags[sFlags::negative] = A;
+  getMemData();
+  A |= memData;
+  setZero(A);
+  setNeg(A);
   return 0;
-} // red
+}
 
 // red shift operation instructions
 
@@ -249,22 +258,29 @@ uint8_t chip2A03::SEI() {
 }
 // comparison instructions
 uint8_t chip2A03::CMP() {
-  auto diff = A - memory[PC];
-  //  red how to set flags[sFlags::carry] 
-  flags[sFlags::zero] = flags[sFlags::negative] = diff;
+  getMemData();
+  auto diff = A - memData;
+  flags[sFlags::carry] = diff >= memData;
+  setZero(diff);
+  setNeg(diff);
   return 0;
-} // red
+} 
 
 uint8_t chip2A03::CPX() {
-  auto diff = X - memory[PC];
-  // red set carry missing
-  flags[sFlags::zero] = flags[sFlags::negative] = diff;
+  getMemData();
+  auto diff = X - memData;
+  flags[sFlags::carry] = diff >= memData;
+  setZero(diff);
+  setNeg(diff);
   return 0;
-} // red
+} 
 
 uint8_t chip2A03::CPY() {
-  auto diff = Y - memory[PC];
-  flags[sFlags::zero] = flags[sFlags::negative] = diff;
+  getMemData();
+  auto diff = Y - memData;
+  flags[sFlags::carry] = diff >= memData;
+  setZero(diff);
+  setNeg(diff);
   return 0;
 } // red
 
@@ -273,7 +289,8 @@ uint8_t chip2A03::BRK() {
 }
 
 uint8_t chip2A03::BIT() {
-  auto operand = memory[PC];
+  getMemData();
+  auto operand = memData;
   flags[sFlags::zero] = !(operand & A);
   flags[sFlags::overflow] = (operand >> 6) & 1;
   flags[sFlags::negative] = (operand >> 7) & 1;
