@@ -504,3 +504,9 @@ uint8_t chip2A03::BIT() {
   return 0;
 }
 
+// orange is this ok?
+uint8_t chip2A03::NOP() {
+  cycles++;
+  return 0;
+}
+
