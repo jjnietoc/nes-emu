@@ -44,6 +44,7 @@ uint8_t chip2A03::LDA() {
 uint8_t chip2A03::LDX() {
   getMemData();
   X = memData;
+
   setZero(X);
   setNeg(X);
   return 0;
@@ -59,6 +60,8 @@ uint8_t chip2A03::LDY() {
 
 uint8_t chip2A03::STA() {
   getMemData();
+
+
   memData = A;
   return 0;
 }
@@ -70,6 +73,7 @@ uint8_t chip2A03::STX() {
 }
 
 uint8_t chip2A03::STY() {
+
   getMemData();
   memData = Y;
   return 0;
@@ -107,6 +111,7 @@ uint8_t chip2A03::TXS() {
   stack.top() = X;
   return 0;
 }
+
 
 uint8_t chip2A03::TYA() {
   A = Y;
@@ -191,7 +196,27 @@ uint8_t chip2A03::INY() {
   return 0;
 } 
 
-// red todo: arithmetic instructions
+// arithmetic instructions
+uint8_t chip2A03::ADC() {
+  getMemData();
+  auto result = A + memData + flags[sFlags::carry];
+  flags[sFlags::carry] = result > 0xFF;
+  setZero(result);
+  flags[sFlags::overflow] = (result ^ A) & (result ^ memData) & 0x80;
+  setNeg(result & 0x80);
+  A = result;
+  return 1;
+}
+
+uint8_t chip2A03::SBC() {
+  getMemData();
+  auto result = A - memData - ~(flags[sFlags::carry]);
+  flags[sFlags::carry] = ~(result < 0x00);
+  setNeg(result == 0);
+  flags[sFlags::overflow] = (result ^ A) & (result ^ ~memData) & 0x80;
+  setNeg(result & 0x80);
+  return 1;
+}
 
 // logical operation instructions
 uint8_t chip2A03::AND() {
@@ -201,7 +226,6 @@ uint8_t chip2A03::AND() {
   setNeg(A);
   return 0;
 }
-
 
 uint8_t chip2A03::EOR() {
   getMemData();
@@ -219,25 +243,14 @@ uint8_t chip2A03::ORA() {
   return 0;
 }
 
-// red shift operation instructions
-uint8_t chip2A03::ADC() {
+// orange shift operation instructions
+uint8_t chip2A03::ASL() {
   getMemData();
-  auto result = A + memData + flags[sFlags::carry];
-  flags[sFlags::carry] = result > 0xFF;
-  setZero(result == 0);
-  flags[sFlags::overflow] = (result ^ A) & (result ^ memData) & 0x80;
-  setNeg(result & 0x80);
-  A = result;
-  return 1;
-}
-
-uint8_t chip2A03::SBC() {
-  getMemData();
-  auto result = A - memData - ~(flags[sFlags::carry]);
-  flags[sFlags::carry] = ~(result < 0x00);
-  setNeg(result == 0);
-  flags[sFlags::overflow] = (result ^ A) & (result ^ ~memData) & 0x80;
-  setNeg(result & 0x80);
+  auto result = memData << 1;
+  write(memAddr, result);
+  flags[sFlags::carry] = memData & 0x80;
+  setZero(result);
+  setNeg(result);
   return 1;
 }
 
@@ -275,7 +288,8 @@ uint8_t chip2A03::SED() {
 uint8_t chip2A03::SEI() {
   flags[sFlags::interrupt] = 1;
   return 0;
-}
+} 
+
 // comparison instructions
 uint8_t chip2A03::CMP() {
   getMemData();
@@ -302,7 +316,7 @@ uint8_t chip2A03::CPY() {
   setZero(diff);
   setNeg(diff);
   return 0;
-} // red
+} 
 
 uint8_t chip2A03::BRK() {
   return 0;
@@ -315,5 +329,5 @@ uint8_t chip2A03::BIT() {
   flags[sFlags::overflow] = (operand >> 6) & 1;
   flags[sFlags::negative] = (operand >> 7) & 1;
   return 0;
-} // red
+}
 
