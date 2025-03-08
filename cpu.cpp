@@ -231,6 +231,16 @@ uint8_t chip2A03::ADC() {
   return 1;
 }
 
+uint8_t chip2A03::SBC() {
+  getMemData();
+  auto result = A - memData - ~(flags[sFlags::carry]);
+  flags[sFlags::carry] = ~(result < 0x00);
+  setNeg(result == 0);
+  flags[sFlags::overflow] = (result ^ A) & (result ^ ~memData) & 0x80;
+  setNeg(result & 0x80);
+  return 1;
+}
+
 // flag instructions 
 uint8_t chip2A03::CLC() {
   flags[sFlags::carry] = 0;
