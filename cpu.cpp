@@ -254,6 +254,15 @@ uint8_t chip2A03::ASL() {
   return 1;
 }
 
+uint8_t chip2A03::LSR() {
+  getMemData();
+  auto result = memData >> 1;
+  write(memAddr, result);
+  flags[sFlags::carry] = memData & 0x80;
+  setZero(result);
+  setNeg(result);
+  return 1;
+}
 // flag instructions 
 uint8_t chip2A03::CLC() {
   flags[sFlags::carry] = 0;
