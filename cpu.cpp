@@ -209,7 +209,7 @@ uint8_t chip2A03::EOR() {
   setZero(A);
   setNeg(A);
   return 0;
-} // red
+}
 
 uint8_t chip2A03::ORA() {
   getMemData();
@@ -220,6 +220,16 @@ uint8_t chip2A03::ORA() {
 }
 
 // red shift operation instructions
+uint8_t chip2A03::ADC() {
+  getMemData();
+  auto result = A + memData + flags[sFlags::carry];
+  flags[sFlags::carry] = result > 0xFF;
+  setZero(result == 0);
+  flags[sFlags::overflow] = (result ^ A) & (result ^ memData) & 0x80;
+  setNeg(result & 0x80);
+  A = result;
+  return 1;
+}
 
 // flag instructions 
 uint8_t chip2A03::CLC() {
