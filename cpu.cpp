@@ -263,6 +263,27 @@ uint8_t chip2A03::LSR() {
   setNeg(result);
   return 1;
 }
+
+uint8_t chip2A03::ROL() {
+  getMemData();
+  auto result = memData << 1 | flags[sFlags::carry];
+  write(memAddr, result);
+  flags[sFlags::carry] = memData & 0x80;
+  setZero(result);
+  setNeg(result);
+  return 1;
+}
+
+uint8_t chip2A03::ROR() {
+  getMemData();
+  auto result = flags[sFlags::carry] << 7 | memData >> 1;
+  write(memAddr, result);
+  flags[sFlags::carry] = memData & 0x80;
+  setZero(result);
+  setNeg(result);
+  return 1;
+}
+
 // flag instructions 
 uint8_t chip2A03::CLC() {
   flags[sFlags::carry] = 0;
