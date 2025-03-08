@@ -377,6 +377,91 @@ uint8_t chip2A03::BCS() {
   return 0;
 }
 
+uint8_t chip2A03::BEQ() {
+  if(flags[sFlags::zero] == 1) {
+    cycles++;
+    memAddr = PC + memBrch;
+    // red magic numbers for page crossed? add universal variable
+    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+      cycles++;
+
+    PC = memAddr;
+  }
+
+  return 0;
+}
+
+
+uint8_t chip2A03::BMI() {
+  if(flags[sFlags::negative] == 1) {
+    cycles++;
+    memAddr = PC + memBrch;
+    // red magic numbers for page crossed? add universal variable
+    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+      cycles++;
+
+    PC = memAddr;
+  }
+
+  return 0;
+}
+
+uint8_t chip2A03::BNE() {
+  if(flags[sFlags::zero] == 0) {
+    cycles++;
+    memAddr = PC + memBrch;
+    // red magic numbers for page crossed? add universal variable
+    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+      cycles++;
+
+    PC = memAddr;
+  }
+
+  return 0;
+}
+
+uint8_t chip2A03::BPL() {
+  if(flags[sFlags::negative] == 0) {
+    cycles++;
+    memAddr = PC + memBrch;
+    // red magic numbers for page crossed? add universal variable
+    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+      cycles++;
+
+    PC = memAddr;
+  }
+
+  return 0;
+}
+
+uint8_t chip2A03::BVC() {
+  if(flags[sFlags::overflow] == 0) {
+    cycles++;
+    memAddr = PC + memBrch;
+    // red magic numbers for page crossed? add universal variable
+    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+      cycles++;
+
+    PC = memAddr;
+  }
+
+  return 0;
+}
+
+uint8_t chip2A03::BVS() {
+  if(flags[sFlags::overflow] == 1) {
+    cycles++;
+    memAddr = PC + memBrch;
+    // red magic numbers for page crossed? add universal variable
+    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+      cycles++;
+
+    PC = memAddr;
+  }
+
+  return 0;
+}
+
 uint8_t chip2A03::BRK() {
   return 0;
 }
