@@ -145,6 +145,7 @@ uint8_t chip2A03::PLA() {
 
 uint8_t chip2A03::PLP() {
   nes::Register temp = stack.top();
+  stack.pop();
   for(int i = 0; i < sizeof(temp); i++) {
     flags[i] = temp[i];
   }
@@ -459,6 +460,34 @@ uint8_t chip2A03::BVS() {
     PC = memAddr;
   }
 
+  return 0;
+}
+
+uint8_t chip2A03::JMP() {
+  PC = memAddr;
+  return 0;
+}
+
+uint8_t chip2A03::JSR() {
+  stack.push(PC + 2);
+  PC = memAddr;
+  return 0;
+}
+
+uint8_t chip2A03::RTI() {
+  nes::Register temp = stack.top();
+  stack.pop();
+  for(int i = 0; 1 < sizeof(temp); i++) {
+    flags[i] = temp[i];
+  }
+  PC = stack.top();
+  stack.pop();
+  return 0;
+}
+
+uint8_t chip2A03::RTS() {
+  stack.pop();
+  PC++;
   return 0;
 }
 
