@@ -243,7 +243,7 @@ uint8_t chip2A03::ORA() {
   return 0;
 }
 
-// orange shift operation instructions
+// shift operation instructions
 uint8_t chip2A03::ASL() {
   getMemData();
   auto result = memData << 1;
@@ -347,6 +347,35 @@ uint8_t chip2A03::CPY() {
   setNeg(diff);
   return 0;
 } 
+
+// orange conditional branch and subroutines
+uint8_t chip2A03::BCC() {
+  if(flags[sFlags::carry] == 0) {
+    cycles++;
+    memAddr = PC + memBrch;
+    // red magic numbers for page crossed? add universal variable
+    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+      cycles++;
+
+    PC = memAddr;
+  }
+
+  return 0;
+}
+
+uint8_t chip2A03::BCS() {
+  if(flags[sFlags::carry] == 1) {
+    cycles++;
+    memAddr = PC + memBrch;
+    // red magic numbers for page crossed? add universal variable
+    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+      cycles++;
+
+    PC = memAddr;
+  }
+
+  return 0;
+}
 
 uint8_t chip2A03::BRK() {
   return 0;

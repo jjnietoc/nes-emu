@@ -40,7 +40,8 @@ private:
   uint16_t memAddr;
   uint16_t memBrch;
   uint8_t opcode;
-  // cycles and clock missing, not needed at this point
+  uint8_t cycles;
+  // clock missing, not needed at this point
 
   struct Instruction {
     std::string name;
