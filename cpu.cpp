@@ -1,4 +1,5 @@
 #include "cpu.hpp"
+#include "constants.hpp"
 #include <algorithm>
 #include <cstdint>
   
@@ -349,13 +350,12 @@ uint8_t chip2A03::CPY() {
   return 0;
 } 
 
-// orange conditional branch and subroutines
+// conditional branch and subroutines
 uint8_t chip2A03::BCC() {
   if(flags[sFlags::carry] == 0) {
     cycles++;
     memAddr = PC + memBrch;
-    // red magic numbers for page crossed? add universal variable
-    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+    if((memAddr & PAGE_CROSSED) != (PC & PAGE_CROSSED)) 
       cycles++;
 
     PC = memAddr;
@@ -368,8 +368,7 @@ uint8_t chip2A03::BCS() {
   if(flags[sFlags::carry] == 1) {
     cycles++;
     memAddr = PC + memBrch;
-    // red magic numbers for page crossed? add universal variable
-    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+    if((memAddr & PAGE_CROSSED) != (PC & PAGE_CROSSED)) 
       cycles++;
 
     PC = memAddr;
@@ -382,8 +381,7 @@ uint8_t chip2A03::BEQ() {
   if(flags[sFlags::zero] == 1) {
     cycles++;
     memAddr = PC + memBrch;
-    // red magic numbers for page crossed? add universal variable
-    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+    if((memAddr & PAGE_CROSSED) != (PC & PAGE_CROSSED)) 
       cycles++;
 
     PC = memAddr;
@@ -397,8 +395,7 @@ uint8_t chip2A03::BMI() {
   if(flags[sFlags::negative] == 1) {
     cycles++;
     memAddr = PC + memBrch;
-    // red magic numbers for page crossed? add universal variable
-    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+    if((memAddr & PAGE_CROSSED) != (PC & PAGE_CROSSED)) 
       cycles++;
 
     PC = memAddr;
@@ -411,8 +408,7 @@ uint8_t chip2A03::BNE() {
   if(flags[sFlags::zero] == 0) {
     cycles++;
     memAddr = PC + memBrch;
-    // red magic numbers for page crossed? add universal variable
-    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+    if((memAddr & PAGE_CROSSED) != (PC & PAGE_CROSSED)) 
       cycles++;
 
     PC = memAddr;
@@ -425,8 +421,7 @@ uint8_t chip2A03::BPL() {
   if(flags[sFlags::negative] == 0) {
     cycles++;
     memAddr = PC + memBrch;
-    // red magic numbers for page crossed? add universal variable
-    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+    if((memAddr & PAGE_CROSSED) != (PC & PAGE_CROSSED)) 
       cycles++;
 
     PC = memAddr;
@@ -439,8 +434,7 @@ uint8_t chip2A03::BVC() {
   if(flags[sFlags::overflow] == 0) {
     cycles++;
     memAddr = PC + memBrch;
-    // red magic numbers for page crossed? add universal variable
-    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+    if((memAddr & PAGE_CROSSED) != (PC & PAGE_CROSSED)) 
       cycles++;
 
     PC = memAddr;
@@ -453,8 +447,7 @@ uint8_t chip2A03::BVS() {
   if(flags[sFlags::overflow] == 1) {
     cycles++;
     memAddr = PC + memBrch;
-    // red magic numbers for page crossed? add universal variable
-    if((memAddr & 0xFF00) != (PC & 0xFF00)) 
+    if((memAddr & PAGE_CROSSED) != (PC & PAGE_CROSSED)) 
       cycles++;
 
     PC = memAddr;
