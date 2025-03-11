@@ -2,6 +2,7 @@
 #include "constants.hpp"
 #include <algorithm>
 #include <cstdint>
+#include <sys/types.h>
   
 // Constuctor:
 chip2A03::chip2A03() {}
@@ -31,6 +32,26 @@ uint8_t chip2A03::getMemData() {
   if(!(lookupMatrix[opcode].addressmode == &chip2A03::IMP))
     memData = read(memAddr);
   return memData;
+}
+
+// orange break, interrumpt, nmi, etc
+
+// orange Addressing modes
+uint8_t chip2A03::IMP() {
+  memData = A;
+  return 0;
+}
+
+uint8_t chip2A03::IMM() {
+  memAddr = PC++;
+  return 0;
+}
+
+uint8_t chip2A03::ZP0() {
+  memAddr = read(PC);
+  PC++;
+  memAddr &= 0x00FF;
+  return 0;
 }
 
 // Intructions:
