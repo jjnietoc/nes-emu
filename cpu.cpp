@@ -2,7 +2,6 @@
 #include "constants.hpp"
 #include <algorithm>
 #include <cstdint>
-#include <sys/types.h>
   
 // Constuctor:
 chip2A03::chip2A03() {}
@@ -49,6 +48,20 @@ uint8_t chip2A03::IMM() {
 
 uint8_t chip2A03::ZP0() {
   memAddr = read(PC);
+  PC++;
+  memAddr &= 0x00FF;
+  return 0;
+}
+
+uint8_t chip2A03::ZPX() {
+  memAddr = (read(PC) + X);
+  PC++;
+  memAddr &= 0x00FF;
+  return 0;
+}
+
+uint8_t chip2A03::ZPY() {
+  memAddr = (read(PC) + Y);
   PC++;
   memAddr &= 0x00FF;
   return 0;
