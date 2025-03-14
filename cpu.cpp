@@ -67,6 +67,48 @@ uint8_t chip2A03::ZPY() {
   return 0;
 }
 
+uint8_t chip2A03::REL() {
+  memBrch = read(PC);
+  PC++;
+  return 0; 
+  // orange
+}
+
+uint8_t chip2A03::ABS() {
+  uint16_t low = read(PC);
+  PC++;
+  uint16_t high = read(PC);
+  PC++;
+  memAddr = (high << 8) | low;
+  return 0;
+}
+
+uint8_t chip2A03::ABX() {
+  uint16_t low = read(PC);
+  PC++;
+  uint16_t high = read(PC);
+  PC++;
+  memAddr = (high << 8) | low;
+  memAddr += X;
+  if((memAddr & PAGE_CROSSED) != (high << 8))
+    return 1;
+  else
+    return 0;
+}
+
+uint8_t chip2A03::ABY() {
+  uint16_t low = read(PC);
+  PC++;
+  uint16_t high = read(PC);
+  PC++;
+  memAddr = (high << 8) | low;
+  memAddr += Y;
+  if((memAddr & PAGE_CROSSED) != (high << 8))
+    return 1;
+  else
+    return 0;
+}
+
 // Intructions:
 uint8_t chip2A03::LDA() { 
   getMemData();
