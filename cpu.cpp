@@ -2,6 +2,7 @@
 #include "constants.hpp"
 #include <algorithm>
 #include <cstdint>
+#include <sys/types.h>
   
 // Constuctor:
 chip2A03::chip2A03() {}
@@ -104,6 +105,48 @@ uint8_t chip2A03::ABY() {
   memAddr = (high << 8) | low;
   memAddr += Y;
   if((memAddr & PAGE_CROSSED) != (high << 8))
+    return 1;
+  else
+    return 0;
+}
+
+uint8_t chip2A03::IND() {
+  uint16_t low = read(PC);
+  PC++;
+  uint16_t high = read(PC);
+  PC++;
+
+  uint16_t ptr = (high << 8) | low;
+  
+  if(low == 0x00FF) {
+    memAddr = (read(ptr & 0xFF00) << 8) | read(ptr + 0);
+  } else {
+    memAddr = (read(ptr + 1) << 8) | read(ptr + 0);
+  }
+
+  return 0;
+}
+
+uint8_t chip2A03::IZX() {
+  uint16_t addr = read(PC);
+  PC++;
+  uint16_t low = read((uint16_t)(addr + (uint16_t)X) & 0x00FF);
+  uint16_t high = read((uint16_t)(addr + (uint16_t)X + 1) & 0x00FF);
+
+  memAddr = (high << 8) | low;
+  return 0;
+}
+
+uint8_t chip2A03::IZY() {
+  uint16_t addr = read(PC);
+  PC++;
+  uint16_t low = read(addr & 0x00FF);
+	uint16_t high = read((addr + 1) & 0x00FF);
+
+  memAddr = (high << 8) | low;
+  memAddr += Y;
+
+  if((memAddr & 0xFF00) != (high << 8))
     return 1;
   else
     return 0;
